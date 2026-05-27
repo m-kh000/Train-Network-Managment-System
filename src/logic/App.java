@@ -29,6 +29,7 @@ public class App {
         data.get(5).addRoute(new Route(data.get(5), data.get(6), 18));
         data.get(6).addRoute(new Route(data.get(6), data.get(5), 28));
         
+        
 
         JFrame frame = new JFrame();
         GraphPage graph = new GraphPage(data);
