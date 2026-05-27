@@ -9,7 +9,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         HashMap<Integer, Station> data = new HashMap<>();
         
-        // Add stations
+        // tests
         data.put(1, new Station("A"));
         data.put(2, new Station("B"));
         data.put(3, new Station("C"));
@@ -18,7 +18,6 @@ public class App {
         data.put(6, new Station("F"));
         data.put(7, new Station("G"));
 
-        // Add routes
         data.get(1).addRoute(new Route(data.get(1), data.get(2), 10));
         data.get(1).addRoute(new Route(data.get(1), data.get(3), 20));
         data.get(1).addRoute(new Route(data.get(1), data.get(5), 15));
@@ -29,6 +28,7 @@ public class App {
         data.get(7).addRoute(new Route(data.get(7), data.get(3), 1035));
         data.get(5).addRoute(new Route(data.get(5), data.get(6), 18));
         data.get(6).addRoute(new Route(data.get(6), data.get(5), 28));
+        
         
 
         JFrame frame = new JFrame();
