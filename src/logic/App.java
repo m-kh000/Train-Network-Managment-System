@@ -26,13 +26,15 @@ public class App {
         data.get(2).addRoute(new Route(data.get(2), data.get(6), 25));
         data.get(3).addRoute(new Route(data.get(3), data.get(4), 12));
         data.get(3).addRoute(new Route(data.get(3), data.get(7), 35));
+        data.get(7).addRoute(new Route(data.get(7), data.get(3), 1035));
         data.get(5).addRoute(new Route(data.get(5), data.get(6), 18));
-        data.get(6).addRoute(new Route(data.get(6), data.get(7), 28));
+        data.get(6).addRoute(new Route(data.get(6), data.get(5), 28));
         
 
         JFrame frame = new JFrame();
-        frame.add(new GraphPage(data));
-        frame.setSize(1000, 1000);
+        GraphPage graph = new GraphPage(data);
+        frame.add(graph);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
