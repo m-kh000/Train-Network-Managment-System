@@ -1,13 +1,12 @@
 package logic;
 
 import ui.UI;
-import java.util.HashMap;
 
 public class App {
     private static Network network;
 
     public static void main(String[] args) throws Exception {
-        network = new Network();
+        Network network = new Network();
         
         network.addStation(new Station("A"));
         network.addStation(new Station("B"));
@@ -28,10 +27,6 @@ public class App {
         network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
         network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        new UI();
-    }
-
-    public static Network getNetwork() {
-        return network;
+        new UI(network);
     }
 }
