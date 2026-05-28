@@ -1,13 +1,12 @@
 package logic;
 
 import ui.UI;
-import java.util.HashMap;
 
 public class App {
     private static Network network;
 
     public static void main(String[] args) throws Exception {
-        network = new Network();
+        Network network = new Network();
         
         network.addStation(new Station("A"));
         network.addStation(new Station("B"));

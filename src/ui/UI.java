@@ -7,13 +7,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import logic.Network;
 import ui.Manager.Btn;
 
 public class UI extends JFrame {
 
     private static JPanel centerPanel;
 
-    public UI() {
+    public UI(Network network) {
         setSize(
             Toolkit.getDefaultToolkit().getScreenSize().width,
             Toolkit.getDefaultToolkit().getScreenSize().height - 1
@@ -28,7 +30,7 @@ public class UI extends JFrame {
         fullPanel.setBorder(BorderFactory.createEmptyBorder(80, 20, 80, 20));
 
         centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new MainPage());
+        centerPanel.add(new MainPage(network));
 
         fullPanel.add(centerPanel);
         add(fullPanel);
@@ -47,9 +49,9 @@ public class UI extends JFrame {
         centerPanel.repaint();
     }
 
-    public static JButton backBtn() {
+    public static JButton backBtn(Network network) {
         Btn backButton = new Btn("←");
-        backButton.addActionListener(e -> switchContent(new MainPage()));
+        backButton.addActionListener(e -> switchContent(new MainPage(network)));
         return backButton;
     }
 }

@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import logic.Network;
 import ui.Manager.Btn;
 import ui.methods.AddRoute;
 import ui.methods.AddStation;
@@ -17,7 +19,7 @@ import ui.methods.EditStation;
 
 public class MainPage extends JPanel {
 
-    public MainPage() {
+    public MainPage(Network network) {
         setLayout(new BorderLayout());
 
         JLabel logo = new JLabel();
@@ -44,18 +46,18 @@ public class MainPage extends JPanel {
 
         JPanel row3 = new JPanel(new GridLayout(1, 2, 10, 10));
         Btn btnAddStation = new Btn("public/add.png", "Add Station");
-        btnAddStation.addActionListener(e -> UI.switchContent(new AddStation()));
+        btnAddStation.addActionListener(e -> UI.switchContent(new AddStation(network)));
         Btn btnAddRoute = new Btn("public/add.png", "Add Route");
-        btnAddRoute.addActionListener(e -> UI.switchContent(new AddRoute()));
+        btnAddRoute.addActionListener(e -> UI.switchContent(new AddRoute(network)));
         row3.add(btnAddStation);
         row3.add(btnAddRoute);
         centerPanel.add(row3);
 
         JPanel row4 = new JPanel(new GridLayout(1, 2, 10, 10));
         Btn btnEditStation = new Btn("public/edit.png", "Edit Station");
-        btnEditStation.addActionListener(e -> UI.switchContent(new EditStation()));
+        btnEditStation.addActionListener(e -> UI.switchContent(new EditStation(network)));
         Btn btnEditRoute = new Btn("public/edit.png", "Edit Route");
-        btnEditRoute.addActionListener(e -> UI.switchContent(new EditRoute()));
+        btnEditRoute.addActionListener(e -> UI.switchContent(new EditRoute(network)));
         row4.add(btnEditStation);
         row4.add(btnEditRoute);
         centerPanel.add(row4);
