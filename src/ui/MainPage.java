@@ -72,39 +72,61 @@ public class MainPage extends JPanel {
     }
 }
 /*
-1. Switch to your branch B:
+# =========================
+# BEFORE WORKING
+# =========================
 
-git checkout B
+# go to main branch
+git checkout main
 
-2. Pull latest from main (to sync with latest changes):
-
-git fetch origin
+# get latest changes from github
 git pull origin main
 
-3. Make your changes, then add and commit:
+# switch to your personal branch
+git checkout MK
 
-git add .
-git commit -m "Your commit message here"
+# update your branch with latest main
+git merge main
 
-4. Push your branch to GitHub:
+# now start coding normally...
 
-git push origin B
 
-5. Merge B into main (if on main branch):
 
-git checkout main
-git merge B
+# =========================
+# AFTER YOU FINISH WORKING
+# =========================
 
-6. If conflicts occur, check conflicted files:
-
+# check changed files
 git status
 
-7. Resolve each conflict in VSCode, then:
-
+# add changes
 git add .
-git commit -m "Resolved merge conflicts"
 
-8. Push the merge:
+# commit changes
+git commit -m "Describe what you changed"
 
+# push your branch to github
+git push origin MK
+
+
+
+# =========================
+# MERGING YOUR WORK INTO MAIN
+# =========================
+
+# switch to main
+git checkout main
+
+# make sure main is updated
+git pull origin main
+
+# merge your branch into main
+git merge MK
+
+# push updated main to github
 git push origin main
-*/ 
+
+# go to main branch
+git checkout MK
+
+*/
