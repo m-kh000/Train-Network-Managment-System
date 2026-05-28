@@ -1,42 +1,37 @@
 package logic;
 
-import javax.swing.JFrame;
-
-import ui.GraphPage;
+import ui.UI;
 import java.util.HashMap;
 
 public class App {
+    private static Network network;
+
     public static void main(String[] args) throws Exception {
-        HashMap<Integer, Station> data = new HashMap<>();
+        network = new Network();
         
-        // tests
-        data.put(1, new Station("A"));
-        data.put(2, new Station("B"));
-        data.put(3, new Station("C"));
-        data.put(4, new Station("D"));
-        data.put(5, new Station("E"));
-        data.put(6, new Station("F"));
-        data.put(7, new Station("G"));
+        network.addStation(new Station("A"));
+        network.addStation(new Station("B"));
+        network.addStation(new Station("C"));
+        network.addStation(new Station("D"));
+        network.addStation(new Station("E"));
+        network.addStation(new Station("F"));
+        network.addStation(new Station("G"));
 
-        data.get(1).addRoute(new Route(data.get(1), data.get(2), 10));
-        data.get(1).addRoute(new Route(data.get(1), data.get(3), 20));
-        data.get(1).addRoute(new Route(data.get(1), data.get(5), 15));
-        data.get(2).addRoute(new Route(data.get(2), data.get(4), 30));
-        data.get(2).addRoute(new Route(data.get(2), data.get(6), 25));
-        data.get(3).addRoute(new Route(data.get(3), data.get(4), 12));
-        data.get(3).addRoute(new Route(data.get(3), data.get(7), 35));
-        data.get(7).addRoute(new Route(data.get(7), data.get(3), 1035));
-        data.get(5).addRoute(new Route(data.get(5), data.get(6), 18));
-        data.get(6).addRoute(new Route(data.get(6), data.get(5), 28));
-        
-        
+        network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(2), 10));
+        network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(3), 20));
+        network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(5), 15));
+        network.getStation(2).addRoute(new Route(network.getStation(2), network.getStation(4), 30));
+        network.getStation(2).addRoute(new Route(network.getStation(2), network.getStation(6), 25));
+        network.getStation(3).addRoute(new Route(network.getStation(3), network.getStation(4), 12));
+        network.getStation(3).addRoute(new Route(network.getStation(3), network.getStation(7), 35));
+        network.getStation(7).addRoute(new Route(network.getStation(7), network.getStation(3), 1035));
+        network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
+        network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        JFrame frame = new JFrame();
-        GraphPage graph = new GraphPage(data);
-        frame.add(graph);
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        new UI();
+    }
 
+    public static Network getNetwork() {
+        return network;
     }
 }
