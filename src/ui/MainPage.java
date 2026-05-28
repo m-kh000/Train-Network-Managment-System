@@ -73,3 +73,63 @@ public class MainPage extends JPanel {
         add(paddingEast, BorderLayout.EAST);
     }
 }
+
+/*
+# =========================
+# BEFORE WORKING
+# =========================
+
+# go to main branch
+git checkout main
+
+# get latest changes from github
+git pull origin main
+
+# switch to your personal branch
+git checkout MK
+
+# update your branch with latest main
+git merge main
+
+# now start coding normally...
+
+
+
+# =========================
+# AFTER YOU FINISH WORKING
+# =========================
+
+# check changed files
+git status
+
+# add changes
+git add .
+
+# commit changes
+git commit -m "Describe what you changed"
+
+# push your branch to github
+git push origin MK
+
+
+
+# =========================
+# MERGING YOUR WORK INTO MAIN
+# =========================
+
+# switch to main
+git checkout main
+
+# make sure main is updated
+git pull origin main
+
+# merge your branch into main
+git merge MK
+
+# push updated main to github
+git push origin main
+
+# go to main branch
+git checkout MK
+
+*/
