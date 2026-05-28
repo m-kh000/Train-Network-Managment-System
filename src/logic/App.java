@@ -28,10 +28,6 @@ public class App {
         network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
         network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        new UI();
-    }
-
-    public static Network getNetwork() {
-        return network;
+        new UI(network);
     }
 }
