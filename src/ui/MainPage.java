@@ -71,3 +71,40 @@ public class MainPage extends JPanel {
         add(paddingEast, BorderLayout.EAST);
     }
 }
+/*
+1. Switch to your branch B:
+
+git checkout B
+
+2. Pull latest from main (to sync with latest changes):
+
+git fetch origin
+git pull origin main
+
+3. Make your changes, then add and commit:
+
+git add .
+git commit -m "Your commit message here"
+
+4. Push your branch to GitHub:
+
+git push origin B
+
+5. Merge B into main (if on main branch):
+
+git checkout main
+git merge B
+
+6. If conflicts occur, check conflicted files:
+
+git status
+
+7. Resolve each conflict in VSCode, then:
+
+git add .
+git commit -m "Resolved merge conflicts"
+
+8. Push the merge:
+
+git push origin main
+*/ 
