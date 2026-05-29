@@ -1,11 +1,19 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+
+import logic.Network;
 
 public class Manager {
 
@@ -13,12 +21,36 @@ public class Manager {
     private static final int NORMAL_SIZE = 16;
     private static final int BIG_SIZE = 20;
     private static final Color BACKGROUND_COLOR = new Color(240, 240, 250);
-    private static final Color BUTTON_COLOR = new Color(190, 110, 200);
+    private static final Color BUTTON_COLOR = new Color(240, 190, 80);
+    private static final Color BUTTON_TEXT = new Color(255, 255, 255);
+    private static final Color BUTTON_OUTLINE = new Color(208, 145, 130);
+    private static final Color HOVER_BORDER_COLOR = new Color(216, 90, 59);
 
     public static boolean isEdited = false;
     public static boolean taskAutorefresh = false;
     public static boolean plAutorefresh = false;
     public static boolean itemAutorefresh = false;
+
+    //main page
+
+     public static final String LOGO_PATH = "public/train2.png";
+     public static final String STATION_PATH = "public/pin.png";
+     public static final String MAP_PATH = "public/map.png";
+     public static final String ADD_PATH = "public/add.png";
+     public static final String EDIT_PATH = "public/edit.png";
+
+     public static final int LOGO_WIDTH = 220;
+     public static final int LOGO_HEIGHT = 220;
+     public static final int ICON_SIZE = 30;
+     public static final int BTN_ICON_GAP = 30;
+     public static final int ROW_SPACING = 20;
+     public static final int SIDE_PADDING_SIZE = 380;
+     public static final int TP_PADDING_SIZE = 40;
+     public static final int SIDE_PADDING_SMALL = 220;
+
+     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+     public static final int SCREEN_WIDTH = SCREEN_SIZE.width;
+     public static final int SCREEN_HEIGHT = SCREEN_SIZE.height;
 
     public static Font defaultFont(boolean isBold, boolean isBig) {
         int style = isBold ? Font.BOLD : Font.PLAIN;
@@ -41,7 +73,7 @@ public class Manager {
             setFocusPainted(false);
             setFont(defaultFont(true, true));
             setBackground(BUTTON_COLOR);
-            setForeground(Color.WHITE);
+            setForeground(BUTTON_TEXT);
 
             ImageIcon icon = new ImageIcon(
                 new ImageIcon(iconPath)
@@ -53,10 +85,37 @@ public class Manager {
             setHorizontalAlignment(SwingConstants.CENTER);
             setHorizontalTextPosition(SwingConstants.LEFT);
             setIconTextGap(30);
+            setBorder(BorderFactory.createLineBorder(BUTTON_OUTLINE, 1));
+            setOpaque(true);
+
+            addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent e) {
+                    setBorder(BorderFactory.createLineBorder(HOVER_BORDER_COLOR, 1));
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent e) {
+                    setBorder(BorderFactory.createLineBorder(BUTTON_OUTLINE, 1));
+                }
+            });
         }
 
         public Btn(String iconPath) {
             this(iconPath, "");
         }
+
+        
+
+    }
+    public static JPanel topPanel(String string, Network network) {
+        JPanel panel = new JPanel(new BorderLayout());
+        JLabel title = new JLabel(string, JLabel.CENTER);
+        title.setFont(defaultFont(true, true));
+        panel.setPreferredSize(new Dimension(80, 80));
+        panel.add(title, BorderLayout.CENTER);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        panel.add(UI.backBtn(network),BorderLayout.WEST);
+        return panel;
     }
 }

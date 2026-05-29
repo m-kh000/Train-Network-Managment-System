@@ -18,10 +18,17 @@ public class GraphPage extends JPanel {
     // keyed by "fromId_toId"
     HashMap<String, RouteComponent> ro_ui = new HashMap<>();
     ArrayList<RouteComponent> shortestPath = new ArrayList<>();
+    private Color stationColor;
+    private Color roadColor;
+    private Color shortestRoadColor;
 
-    public GraphPage(HashMap<Integer, Station> stations) {
-        this.stations = stations;
-        setSize(getParent() != null ? getParent().getSize() : new Dimension(1200, 600));
+    public GraphPage(Network network, Color stationColor, Color roadColor, Color shortestRoadColor) {
+        this.stations = network.getStations();
+        System.out.println(stations);
+        this.stationColor = stationColor;
+        this.roadColor = roadColor;
+        this.shortestRoadColor = shortestRoadColor;
+        setSize(getParent() != null ? getParent().getSize() : new Dimension(1000, 400));
         fillData();
     }
 
@@ -48,12 +55,18 @@ public class GraphPage extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        g.drawString("100",100,100);
+        g.drawString("200",200,200);
+        g.drawString("300",300,300);
+        g.drawString("400",400,400);
+        g.drawString("500",500,500);
         for (RouteComponent r : ro_ui.values()) {
-            g.setColor(shortestPath.contains(r) ? Color.RED : Color.BLACK);
+            g.setColor(shortestPath.contains(r) ? (shortestRoadColor != null ? shortestRoadColor : Color.RED)
+                    : (roadColor != null ? roadColor : Color.BLACK));
             r.drawArrow(g);
         }
 
-        g.setColor(Color.BLUE);
+        g.setColor(stationColor != null ? stationColor : Color.BLUE);
         for (StationComponent s : st_ui.values()) {
             s.drawStation(g);
         }

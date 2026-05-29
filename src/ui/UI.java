@@ -1,8 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,24 +14,17 @@ public class UI extends JFrame {
     private static JPanel centerPanel;
 
     public UI(Network network) {
-        setSize(
-            Toolkit.getDefaultToolkit().getScreenSize().width,
-            Toolkit.getDefaultToolkit().getScreenSize().height - 1
-        );
+        setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT - 1);
 
         setResizable(false);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel fullPanel = new JPanel(new BorderLayout());
-        fullPanel.setBorder(BorderFactory.createEmptyBorder(80, 20, 80, 20));
-
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(new MainPage(network));
 
-        fullPanel.add(centerPanel);
-        add(fullPanel);
+        add(centerPanel);
 
         ImageIcon icon = new ImageIcon("logo.svg");
         setIconImage(icon.getImage());
@@ -50,8 +41,10 @@ public class UI extends JFrame {
     }
 
     public static JButton backBtn(Network network) {
-        Btn backButton = new Btn("←");
+        Btn backButton = new Btn("public/logo.png");
         backButton.addActionListener(e -> switchContent(new MainPage(network)));
         return backButton;
     }
+
+    
 }
