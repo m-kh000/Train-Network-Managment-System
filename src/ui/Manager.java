@@ -19,7 +19,7 @@ public class Manager {
 
     private static final String FONT_NAME = "Arial";
     private static final int NORMAL_SIZE = 16;
-    private static final int BIG_SIZE = 20;
+    private static final int BIG_SIZE = 26;
     private static final Color BACKGROUND_COLOR = new Color(240, 240, 250);
     private static final Color BUTTON_COLOR = new Color(240, 190, 80);
     private static final Color BUTTON_TEXT = new Color(255, 255, 255);
@@ -39,8 +39,7 @@ public class Manager {
      public static final String ADD_PATH = "public/add.png";
      public static final String EDIT_PATH = "public/edit.png";
 
-     public static final int LOGO_WIDTH = 220;
-     public static final int LOGO_HEIGHT = 220;
+     public static final int LOGO_WIDTH = 240;
      public static final int ICON_SIZE = 30;
      public static final int BTN_ICON_GAP = 30;
      public static final int ROW_SPACING = 20;
@@ -50,7 +49,7 @@ public class Manager {
 
      public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
      public static final int SCREEN_WIDTH = SCREEN_SIZE.width;
-     public static final int SCREEN_HEIGHT = SCREEN_SIZE.height;
+     public static final int SCREEN_HEIGHT = SCREEN_SIZE.height-1;
 
     public static Font defaultFont(boolean isBold, boolean isBig) {
         int style = isBold ? Font.BOLD : Font.PLAIN;
@@ -110,7 +109,7 @@ public class Manager {
     }
     public static JPanel topPanel(String string, Network network) {
         JPanel panel = new JPanel(new BorderLayout());
-        JLabel title = new JLabel(string, JLabel.CENTER);
+        JLabel title = new JLabel(string+"              ", JLabel.CENTER);
         title.setFont(defaultFont(true, true));
         panel.setPreferredSize(new Dimension(80, 80));
         panel.add(title, BorderLayout.CENTER);

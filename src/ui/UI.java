@@ -1,6 +1,8 @@
 package ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,7 +16,7 @@ public class UI extends JFrame {
     private static JPanel centerPanel;
 
     public UI(Network network) {
-        setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT - 1);
+        setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT);
 
         setResizable(false);
         setLayout(new BorderLayout());
@@ -41,7 +43,9 @@ public class UI extends JFrame {
     }
 
     public static JButton backBtn(Network network) {
-        Btn backButton = new Btn("public/logo.png");
+        Btn backButton = new Btn("public/back.png");
+        backButton.setBackground(Manager.defaultBGColor());
+        backButton.setPreferredSize(new Dimension(70,70));
         backButton.addActionListener(e -> switchContent(new MainPage(network)));
         return backButton;
     }

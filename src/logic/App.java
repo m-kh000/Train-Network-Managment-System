@@ -15,6 +15,8 @@ public class App {
         network.addStation(new Station("E"));
         network.addStation(new Station("F"));
         network.addStation(new Station("G"));
+        network.addStation(new Station("G"));
+        network.addStation(new Station("G"));
 
         network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(2), 10));
         network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(3), 20));
