@@ -1,6 +1,9 @@
 package ui.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
+
+import javax.swing.ImageIcon;
 
 import logic.Station;
 
@@ -8,7 +11,7 @@ public class StationComponent {
 
     public int x, y,id;
     public String name;
-    public int radius = 20 ;
+    public int radius = 18 ;
     public StationComponent(Station s, int x, int y) {
         this.x = x;
         this.y = y;
@@ -20,7 +23,11 @@ public class StationComponent {
     }
     public void drawStation(Graphics g) {
             g.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
-            g.drawString(name, x , (int)(y - 1.5 * radius));
+            Color c = g.getColor();
+            g.setColor(new Color(c.getRed()-20,c.getGreen()-80,c.getBlue()-80));
+            g.drawString(name, (int)(x + radius) , (int)(y - radius));
+            g.drawImage(new ImageIcon("public/location1.png").getImage(), x-radius+1, y-radius-13, 2*radius, 2*radius, null);
+            g.setColor(c);
     }
 
 }

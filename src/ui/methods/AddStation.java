@@ -21,17 +21,8 @@ public class AddStation extends JPanel {
         setLayout(new BorderLayout());
 
         this.network = network;
-        // Side panels
-        JPanel leftPanel = new JPanel();
-        JPanel rightPanel = new JPanel();
-        leftPanel.setPreferredSize(new Dimension(100, 0));
-        rightPanel.setPreferredSize(new Dimension(100, 0));
-        add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
-
-        // Main panel
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL));
+        add(Manager.topPanel("Map",network), BorderLayout.NORTH);
 
         // Title
         JLabel title = new JLabel("Add a Station");
@@ -134,16 +125,9 @@ public class AddStation extends JPanel {
 
         buttonPanel.add(submitBtn);
 
-        // Top panel with back button
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(UI.backBtn(network), BorderLayout.WEST);
-        topPanel.add(title, BorderLayout.CENTER);
+        add(formPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        mainPanel.add(topPanel, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        add(mainPanel, BorderLayout.CENTER);
     }
 
     private void generateRoutes() {

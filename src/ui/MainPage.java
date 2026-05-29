@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.BorderFactory;
@@ -16,61 +15,62 @@ import ui.methods.AddRoute;
 import ui.methods.AddStation;
 import ui.methods.EditRoute;
 import ui.methods.EditStation;
+import ui.methods.ShowMap;
+import ui.methods.ShowStations;
 
 public class MainPage extends JPanel {
 
     public MainPage(Network network) {
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
 
+        // Logo
         JLabel logo = new JLabel();
         ImageIcon icon = new ImageIcon(
-            new ImageIcon("public/logo.png")
+            new ImageIcon(Manager.LOGO_PATH)
                 .getImage()
-                .getScaledInstance(190, 190, Image.SCALE_DEFAULT)
+                .getScaledInstance(Manager.LOGO_WIDTH, Manager.LOGO_WIDTH, Image.SCALE_DEFAULT)
         );
-
         logo.setIcon(icon);
         logo.setHorizontalAlignment(SwingConstants.CENTER);
         logo.setVerticalAlignment(SwingConstants.TOP);
-
         add(logo, BorderLayout.NORTH);
 
-        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 0, 20));
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(20, 180, 0, 180));
+        // Center panel
+        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 0, Manager.ROW_SPACING));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
 
-        Btn btnStations = new Btn("public/station.png", "Our Stations");
+        // Row 1: Our Stations
+        Btn btnStations = new Btn(Manager.STATION_PATH, "Our Stations");
         centerPanel.add(btnStations);
+        btnStations.addActionListener(e -> UI.switchContent(new ShowStations(network)));
 
-        Btn btnMap = new Btn("public/map1.png", "Show Map");
+        // Row 2: Show Map
+        Btn btnMap = new Btn(Manager.MAP_PATH, "Show Map");
         centerPanel.add(btnMap);
+        btnMap.addActionListener(e -> UI.switchContent(new ShowMap(network)));
 
+        // Row 3: Add Station | Add Route
         JPanel row3 = new JPanel(new GridLayout(1, 2, 10, 10));
-        Btn btnAddStation = new Btn("public/add.png", "Add Station");
+        Btn btnAddStation = new Btn(Manager.ADD_PATH, "Add Station");
         btnAddStation.addActionListener(e -> UI.switchContent(new AddStation(network)));
-        Btn btnAddRoute = new Btn("public/add.png", "Add Route");
+        Btn btnAddRoute = new Btn(Manager.ADD_PATH, "Add Route");
         btnAddRoute.addActionListener(e -> UI.switchContent(new AddRoute(network)));
         row3.add(btnAddStation);
         row3.add(btnAddRoute);
         centerPanel.add(row3);
 
+        // Row 4: Edit Station | Edit Route
         JPanel row4 = new JPanel(new GridLayout(1, 2, 10, 10));
-        Btn btnEditStation = new Btn("public/edit.png", "Edit Station");
+        Btn btnEditStation = new Btn(Manager.EDIT_PATH, "Edit Station");
         btnEditStation.addActionListener(e -> UI.switchContent(new EditStation(network)));
-        Btn btnEditRoute = new Btn("public/edit.png", "Edit Route");
+        Btn btnEditRoute = new Btn(Manager.EDIT_PATH, "Edit Route");
         btnEditRoute.addActionListener(e -> UI.switchContent(new EditRoute(network)));
         row4.add(btnEditStation);
         row4.add(btnEditRoute);
         centerPanel.add(row4);
 
         add(centerPanel, BorderLayout.CENTER);
-
-        JLabel paddingWest = new JLabel();
-        JLabel paddingEast = new JLabel();
-        paddingWest.setPreferredSize(new Dimension(200, 200));
-        paddingEast.setPreferredSize(new Dimension(200, 200));
-
-        add(paddingWest, BorderLayout.WEST);
-        add(paddingEast, BorderLayout.EAST);
     }
 }
 /*
@@ -130,5 +130,4 @@ git push origin main
 
 # go to main branch
 git checkout MK
-
 */

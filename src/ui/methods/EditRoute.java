@@ -5,12 +5,16 @@ import javax.swing.*;
 import logic.Network;
 
 import java.awt.*;
+
+import ui.Manager;
 import ui.UI;
 
 public class EditRoute extends JPanel {
     public EditRoute(Network network) {
         setLayout(new BorderLayout());
-        add(UI.backBtn(network), BorderLayout.NORTH);
-        add(new JLabel("Edit Route Page"), BorderLayout.CENTER);
+        add(Manager.topPanel("Map",network), BorderLayout.NORTH);
+        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL));
+
+
     }
 }

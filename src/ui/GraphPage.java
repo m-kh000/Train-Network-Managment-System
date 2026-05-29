@@ -18,20 +18,33 @@ public class GraphPage extends JPanel {
     // keyed by "fromId_toId"
     HashMap<String, RouteComponent> ro_ui = new HashMap<>();
     ArrayList<RouteComponent> shortestPath = new ArrayList<>();
+    private Color stationColor;
+    private Color roadColor;
+    private Color shortestRoadColor;
+    private Color bg;
+    private int padding = 100;
+    private int height = Manager.SCREEN_HEIGHT-130 , width = Manager.SCREEN_WIDTH-180;
+    private int radius = Math.abs(Math.min(width,height) - padding)/2;
 
-    public GraphPage(HashMap<Integer, Station> stations) {
-        this.stations = stations;
-        setSize(getParent() != null ? getParent().getSize() : new Dimension(1200, 600));
+    public GraphPage(Network network, Color stationColor, Color roadColor, Color shortestRoadColor, Color bg) {
+        this.stations = network.getStations();
+        System.out.println(stations);
+        this.stationColor = stationColor;
+        this.roadColor = roadColor;
+        this.shortestRoadColor = shortestRoadColor;
+        this.bg = bg;
+        setSize(new Dimension(width,height));
+        setBackground(bg);
         fillData();
     }
 
     private void fillData() {
         double theta = 2 * Math.PI / stations.size() ;
-        int x , y , width = getWidth() , height = getHeight() , padding = 40 , radius = Math.abs(Math.min(width,height) - padding)/2 ;
+        int x , y;
         int index = 0;
         for (Station s : stations.values()) {
-            x = (int)(radius * Math.cos(theta * index) + 0.5 * width);
-            y = (int)(radius * Math.sin(theta * index) + 0.5 * height);
+            x = (int)(radius * Math.cos(theta * index) + 0.5 * (width - padding/2));
+            y = (int)(radius * Math.sin(theta * index) + 0.5 * (height - padding/2));
             st_ui.put(s.id, new StationComponent(s, x, y));
             index++;
         }
@@ -49,11 +62,12 @@ public class GraphPage extends JPanel {
         super.paintComponent(g);
 
         for (RouteComponent r : ro_ui.values()) {
-            g.setColor(shortestPath.contains(r) ? Color.RED : Color.BLACK);
+            g.setColor(shortestPath.contains(r) ? (shortestRoadColor != null ? shortestRoadColor : Color.RED)
+                    : (roadColor != null ? roadColor : Color.BLACK));
             r.drawArrow(g);
         }
 
-        g.setColor(Color.BLUE);
+        g.setColor(stationColor != null ? stationColor : Color.BLUE);
         for (StationComponent s : st_ui.values()) {
             s.drawStation(g);
         }
