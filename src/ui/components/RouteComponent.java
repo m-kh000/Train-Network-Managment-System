@@ -32,7 +32,7 @@ public class RouteComponent {
             ang += Math.PI;
         }
 
-        if (dou && from.x < to.x) {
+        if (dou && (from.x < to.x || (from.x == to.x && from.y < to.y))) {
             shv = -shv;
         }
         stepback = from.radius;
@@ -50,12 +50,15 @@ public class RouteComponent {
         g.drawLine(shx, shy, shbx, shby);
         g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang - theta) * w), (int) (shby - Math.sin(ang - theta) * w));
         g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang + theta) * w), (int) (shby - Math.sin(ang + theta) * w));
-        int mx = shbx + (shx - shbx) / 4 * 3 + shv;
-        int my;
-        if (shv > 0)
-            my = shby + (shy - shby) / 4 * 3 + shv ;
-        else
-            my = (int) (shby + (shy - shby) / 4 * 3 + shv * 0.5);
+        int my , mx ;
+        if (shv > 0){
+            my = shby + (shy - shby) / 4 * 3 + shv * 2 / 3;
+            mx = shbx + (shx - shbx) / 4 * 3 + shv ;
+        }
+        else{
+            my = (int) (shby + (shy - shby) / 4 * 3 + shv * 0.8);
+            mx = shbx + (shx - shbx) / 4 * 3 + shv * 4;
+        }
         g.drawString(String.valueOf(weight), mx, my);
     }
 }
