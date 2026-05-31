@@ -3,7 +3,6 @@ package logic;
 import ui.UI;
 
 public class App {
-    private static Network network;
 
     public static void main(String[] args) throws Exception {
         Network network = new Network();

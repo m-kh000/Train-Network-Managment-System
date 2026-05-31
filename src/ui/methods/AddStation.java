@@ -1,11 +1,9 @@
 package ui.methods;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 import ui.Manager;
-import ui.UI;
 import ui.Manager.*;
 import logic.*;
 

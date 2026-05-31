@@ -1,7 +1,6 @@
 package ui.methods;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import logic.*;
 import ui.GraphPage;
 import ui.Manager;
-import ui.UI;
 
 public class ShowMap extends JPanel {
 

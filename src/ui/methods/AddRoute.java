@@ -1,9 +1,7 @@
 package ui.methods;
 
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import ui.UI;
 import ui.Manager.Btn;
 import ui.Manager;
 import logic.*;
@@ -13,12 +11,10 @@ public class AddRoute extends JPanel {
     private JComboBox<Station> fromCombo;
     private JComboBox<Station> toCombo;
     private JTextField distanceField;
-    private Network network;
 
     public AddRoute(Network network) {
         setLayout(new BorderLayout());
 
-        this.network = network;
         add(Manager.topPanel("Map",network), BorderLayout.NORTH);
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL));
 
