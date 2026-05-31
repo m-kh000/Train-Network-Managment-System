@@ -1,24 +1,18 @@
 package ui.methods;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import logic.Network;
 import logic.Route;
-import logic.Station;
-import ui.GraphPage;
 import ui.Manager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Shortest extends JPanel {
     // UI components

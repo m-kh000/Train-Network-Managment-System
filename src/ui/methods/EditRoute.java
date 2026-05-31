@@ -7,7 +7,6 @@ import logic.Network;
 import java.awt.*;
 
 import ui.Manager;
-import ui.UI;
 
 public class EditRoute extends JPanel {
     public EditRoute(Network network) {

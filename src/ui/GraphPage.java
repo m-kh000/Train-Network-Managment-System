@@ -12,7 +12,6 @@ import ui.components.StationComponent;
 public class GraphPage extends JPanel {
 
     // Model references
-    private Network network;
     private HashMap<Integer, Station> stations = null;
 
     // UI component maps
@@ -36,7 +35,6 @@ public class GraphPage extends JPanel {
 
     public GraphPage(Network network, Color stationColor, Color roadColor, Color shortestRoadColor, Color bg, ArrayList<Route> shortestPath) {
         this.shortestPath = shortestPath;
-        this.network = network;
         this.stations = network.getStations();
         this.stationColor = stationColor;
         this.roadColor = roadColor;
