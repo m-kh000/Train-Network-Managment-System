@@ -38,7 +38,7 @@ public class MainPage extends JPanel {
 
         // Center panel
         JPanel centerPanel = new JPanel(new GridLayout(4, 1, 0, Manager.ROW_SPACING));
-        centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
+        ///////// centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
 
         // Row 1: Our Stations
         Btn btnStations = new Btn(Manager.STATION_PATH, "Our Stations");

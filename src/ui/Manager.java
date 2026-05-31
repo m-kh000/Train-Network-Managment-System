@@ -50,6 +50,8 @@ public class Manager {
      public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
      public static final int SCREEN_WIDTH = SCREEN_SIZE.width;
      public static final int SCREEN_HEIGHT = SCREEN_SIZE.height-1;
+     public static final int SIDE_SHORTEST = 300 ;
+     public static final Color ND_BG = Color.WHITE;
 
     public static Font defaultFont(boolean isBold, boolean isBig) {
         int style = isBold ? Font.BOLD : Font.PLAIN;
