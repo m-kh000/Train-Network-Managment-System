@@ -52,7 +52,7 @@ public class GraphPage extends JPanel {
         for (Station s : stations.values()) {
             x = (int) (radius * Math.cos(theta * index) + 0.5 * (width - padding / 2));
             y = (int) (radius * Math.sin(theta * index) + 0.5 * (height - padding / 2)) + 5;
-            if(shortestPath != null && (s.equals(shortestPath.getFirst().from) || s.equals(shortestPath.getLast().to)))
+            if(shortestPath != null && !shortestPath.isEmpty() && (s.equals(shortestPath.getFirst().from) || s.equals(shortestPath.getLast().to)))
                 st_ui.put(s.id, new StationComponent(s, x, y , true));
             else
                 st_ui.put(s.id, new StationComponent(s, x, y));
