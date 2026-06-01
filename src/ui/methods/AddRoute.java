@@ -1,6 +1,8 @@
 package ui.methods;
 
 import java.awt.*;
+import java.util.HashMap;
+
 import javax.swing.*;
 import ui.Manager.Btn;
 import ui.Manager;
@@ -8,53 +10,64 @@ import logic.*;
 
 public class AddRoute extends JPanel {
 
-    private JComboBox<Station> fromCombo;
-    private JComboBox<Station> toCombo;
-    private JTextField distanceField;
+    private JComboBox<String> fromCombo;
+    private JComboBox<String> toCombo;
+    private JTextField weightField;
+    private String[] names;
 
     public AddRoute(Network network) {
+
+        names = network.getStationsID_NameArr();
         setLayout(new BorderLayout());
 
-        add(Manager.topPanel("Map",network), BorderLayout.NORTH);
-        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SMALL));
-
-        // Title
-        JLabel title = new JLabel("Add a Route");
-        title.setFont(Manager.defaultFont(true, true));
-        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
+        add(Manager.topPanel("Add Route",network), BorderLayout.NORTH);
 
         // Form panel
-        JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 20));
-        formPanel.setPreferredSize(new Dimension(400, 150));
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
 
-        // From Station
+        main.add(Box.createVerticalStrut(40));
+        // From Station 
+        JPanel fromRow = new JPanel(new BorderLayout(20, 0));
         JLabel fromLabel = new JLabel("From Station:");
         fromLabel.setFont(Manager.defaultFont(true, false));
-        fromCombo = new JComboBox<>(network.getStations().values().toArray(new Station[0]));
+        fromLabel.setPreferredSize(new Dimension(150, 30));
+        fromCombo = new JComboBox<>(names);
         fromCombo.setFont(Manager.defaultFont(false, false));
-        
-        // To Station
+        fromRow.setPreferredSize(new Dimension(150, 30));
+        fromRow.add(fromLabel, BorderLayout.WEST);
+        fromRow.add(fromCombo, BorderLayout.CENTER);
+        main.add(fromRow);
+        main.add(Box.createVerticalStrut(60));
+
+        // To Station 
+        JPanel toRow = new JPanel(new BorderLayout(20, 0));
         JLabel toLabel = new JLabel("To Station:");
         toLabel.setFont(Manager.defaultFont(true, false));
-        toCombo = new JComboBox<>(network.getStations().values().toArray(new Station[0]));
+        toLabel.setPreferredSize(new Dimension(150, 30));
+        toCombo = new JComboBox<>(names);
         toCombo.setFont(Manager.defaultFont(false, false));
+        toRow.add(toLabel, BorderLayout.WEST);
+        toRow.add(toCombo, BorderLayout.CENTER);
+        main.add(toRow);
+        main.add(Box.createVerticalStrut(60));
 
-        // Distance
-        JLabel distanceLabel = new JLabel("Distance (km):");
-        distanceLabel.setFont(Manager.defaultFont(true, false));
-        distanceField = new JTextField();
-        distanceField.setFont(Manager.defaultFont(false, false));
-
-        formPanel.add(fromLabel);
-        formPanel.add(fromCombo);
-        formPanel.add(toLabel);
-        formPanel.add(toCombo);
-        formPanel.add(distanceLabel);
-        formPanel.add(distanceField);
+        // Weight (label + field on one horizontal row)
+        JPanel weightRow = new JPanel(new BorderLayout(20, 0));
+        JLabel weightLabel = new JLabel("Weight :");
+        weightLabel.setFont(Manager.defaultFont(true, false));
+        weightLabel.setPreferredSize(new Dimension(150, 30));
+        weightField = new JTextField();
+        weightField.setFont(Manager.defaultFont(false, false));
+        weightRow.add(weightLabel, BorderLayout.WEST);
+        weightRow.add(weightField, BorderLayout.CENTER);
+        main.add(weightRow);
+        main.add(Box.createVerticalStrut(180));
 
         // Button panel
         JPanel buttonPanel = new JPanel();
-        Btn submitBtn = new Btn("Add Route");
+        Btn submitBtn = new Btn("","Submit");
         submitBtn.setPreferredSize(new Dimension(150, 50));
 
         // Enter key functionality
@@ -69,21 +82,21 @@ public class AddRoute extends JPanel {
             try {
                 Station from = (Station) fromCombo.getSelectedItem();
                 Station to = (Station) toCombo.getSelectedItem();
-                String distanceText = distanceField.getText().trim();
+                String weightText = weightField.getText().trim();
 
-                if (from == null || to == null || distanceText.isEmpty()) {
+                if (from == null || to == null || weightText.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please fill all fields.");
                     return;
                 }
 
-                int distance = Integer.parseInt(distanceText);
-                from.addRoute(new Route(from, to, distance));
+                int weight = Integer.parseInt(weightText);
+                from.addRoute(new Route(from, to, weight));
 
-                distanceField.setText("");
+                weightField.setText("");
                 JOptionPane.showMessageDialog(null, "Route added successfully.");
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid distance.");
+                JOptionPane.showMessageDialog(null, "Please enter a valid weight.");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
             }
@@ -91,7 +104,7 @@ public class AddRoute extends JPanel {
 
         buttonPanel.add(submitBtn);
 
-        add(formPanel, BorderLayout.CENTER);
+        add(main, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 }

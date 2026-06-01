@@ -45,7 +45,7 @@ public class UI extends JFrame {
     public static JButton backBtn(Network network) {
         Btn backButton = new Btn("public/back.png");
         backButton.setBackground(Manager.defaultBGColor());
-        backButton.setPreferredSize(new Dimension(70,70));
+        backButton.setPreferredSize(new Dimension(60,60));
         backButton.addActionListener(e -> switchContent(new MainPage(network)));
         return backButton;
     }

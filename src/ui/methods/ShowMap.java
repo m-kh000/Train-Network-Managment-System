@@ -6,7 +6,6 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import logic.*;
-import ui.GraphPage;
 import ui.Manager;
 
 public class ShowMap extends JPanel {
@@ -14,7 +13,7 @@ public class ShowMap extends JPanel {
     private static final Color BG_GRASS = Color.WHITE;
     private static final Color ROAD = new Color(30, 30, 30);
     private static final Color STATION = new Color(250, 200, 90);
-    private static final Color SHORT_ROUTE = new Color(255, 0, 0);
+    private static final Color SHORT_ROUTE = new Color(17, 88, 255);
 
     private final JPanel map;
     private final JPanel sideShortest;
@@ -32,7 +31,7 @@ public class ShowMap extends JPanel {
         map.setBorder(BorderFactory.createLineBorder(ROAD, 1));
         map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, null));
         sideShortest.setBorder(BorderFactory.createLineBorder(ROAD, 1));
-        sideShortest.add(new Shortest(network, this));
+        sideShortest.add(new Shortest(network, this,SHORT_ROUTE));
 
         add(Manager.topPanel("Map", network), BorderLayout.NORTH);
         add(map, BorderLayout.WEST);

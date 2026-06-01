@@ -1,4 +1,4 @@
-package ui;
+package ui.methods;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import logic.*;
+import ui.Manager;
 import ui.components.RouteComponent;
 import ui.components.StationComponent;
 
@@ -27,7 +28,7 @@ public class GraphPage extends JPanel {
     // Appearance settings
     private Color stationColor;
     private Color roadColor = Color.BLACK;
-    private Color shortestRoadColor = Color.RED;
+    private Color shortestRoadColor = Color.BLUE;
     private int padding = 100;
     private int height = Manager.SCREEN_HEIGHT - 130;
     private int width = Manager.SCREEN_WIDTH - 180 - 20 - Manager.SIDE_SHORTEST;
@@ -51,7 +52,10 @@ public class GraphPage extends JPanel {
         for (Station s : stations.values()) {
             x = (int) (radius * Math.cos(theta * index) + 0.5 * (width - padding / 2));
             y = (int) (radius * Math.sin(theta * index) + 0.5 * (height - padding / 2)) + 5;
-            st_ui.put(s.id, new StationComponent(s, x, y));
+            if(shortestPath != null && (s.equals(shortestPath.getFirst().from) || s.equals(shortestPath.getLast().to)))
+                st_ui.put(s.id, new StationComponent(s, x, y , true));
+            else
+                st_ui.put(s.id, new StationComponent(s, x, y));
             index++;
         }
         for (Station from : stations.values()) {
