@@ -1,5 +1,6 @@
 package logic;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,9 +8,16 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-
 public class Network {
     private HashMap<Integer, Station> stations = new HashMap<>();
+
+    public Network(File file) {
+        // TODO Auto-generated constructor stub
+    }
+
+    public Network() {
+        // TODO Auto-generated constructor stub
+    }
 
     public void addStation(Station s) {
         stations.put(s.id, s);
@@ -22,20 +30,20 @@ public class Network {
     public HashMap<Integer, Station> getStations() {
         return stations;
     }
-    
+
     public HashMap<Integer, String> getStations_Name() {
         HashMap<Integer, String> hm = new HashMap<>();
-        for(int i : stations.keySet()){
-            hm.put(i,stations.get(i).name);
+        for (int i : stations.keySet()) {
+            hm.put(i, stations.get(i).name);
         }
         return hm;
     }
 
-        //ai work did not check it TODO
+    // ai work did not check it TODO
     public ArrayList<Route> findShortestPath(int fromi, int toi) {
         Station source = stations.get(fromi);
         Station target = stations.get(toi);
-        if (source == null || target == null || source == target ) {
+        if (source == null || target == null || source == target) {
             return new ArrayList<>();
         }
 
@@ -104,11 +112,23 @@ public class Network {
     }
 
     public String[] getStationsID_NameArr() {
-        String ans[] = new String[stations.size()];int i = 0;
-        for(int s : stations.keySet()){
+        String ans[] = new String[stations.size()];
+        int i = 0;
+        for (int s : stations.keySet()) {
             ans[i] = "" + s + "-" + stations.get(s).name;
             i++;
         }
         return ans;
+    }
+
+    public void ExportToFile() {
+        ExportToFile("Untitled");
+    }
+
+    public void ExportToFile(String filename) {
+        // TODO: implement file export
+
+        java.io.File file = new java.io.File("untitled.txt");
+
     }
 }

@@ -37,7 +37,7 @@ public class MainPage extends JPanel {
         add(logo, BorderLayout.NORTH);
 
         // Center panel
-        JPanel centerPanel = new JPanel(new GridLayout(4, 1, 0, Manager.ROW_SPACING));
+        JPanel centerPanel = new JPanel(new GridLayout(5, 1, 0, Manager.ROW_SPACING));
         ///////// centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
 
         // Row 1: Our Stations
@@ -69,6 +69,17 @@ public class MainPage extends JPanel {
         row4.add(btnEditStation);
         row4.add(btnEditRoute);
         centerPanel.add(row4);
+
+
+        // Row5 import from file | Export to file
+        JPanel row5 = new JPanel(new GridLayout(1, 2, 10, 10));
+        Btn btnimport = new Btn(Manager.EDIT_PATH, "Import File");
+        btnimport.addActionListener(e -> UI.findFileToImport());
+        Btn btnExport = new Btn(Manager.EDIT_PATH, "Export To File");
+        btnExport.addActionListener(e -> UI.typeFileNameToExport(network));
+        row5.add(btnimport);
+        row5.add(btnExport);
+        centerPanel.add(row5);
 
         add(centerPanel, BorderLayout.CENTER);
     }

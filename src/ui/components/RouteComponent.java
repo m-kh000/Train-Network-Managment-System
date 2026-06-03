@@ -12,7 +12,7 @@ public class RouteComponent {
     private double theta = 0.1 * Math.PI;
     private int w = 30;
     private double stepback;
-    private int bx, by, shv = 5, shbx, shby, shx, shy;
+    private int bx, by, shv = 5, shbx, shby, shx, shy, fx, fy;
     private boolean dou = false;
 
     public RouteComponent(StationComponent from, StationComponent to, Route r) {
@@ -38,13 +38,15 @@ public class RouteComponent {
         stepback = from.radius;
         bx = (int) (to.x - Math.cos(ang) * stepback);
         by = (int) (to.y - Math.sin(ang) * stepback);
+        fx = (int) (from.x + Math.cos(ang) * stepback);
+        fy = (int) (from.y + Math.sin(ang) * stepback);
     }
 
     public void drawArrow(Graphics g) {
         shbx = bx + shv;
         shby = by + shv;
-        shx = from.x + shv;
-        shy = from.y + shv;
+        shx = fx + shv;
+        shy = fy + shv;
 
         System.out.println("i drew the line from " + from + " to " + to);
         g.drawLine(shx, shy, shbx, shby);
