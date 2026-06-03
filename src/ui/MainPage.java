@@ -19,8 +19,9 @@ import ui.methods.ShowMap;
 import ui.methods.ShowStations;
 
 public class MainPage extends JPanel {
-
+public Network network;
     public MainPage(Network network) {
+        this.network = network;
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
 
@@ -73,15 +74,20 @@ public class MainPage extends JPanel {
 
         // Row5 import from file | Export to file
         JPanel row5 = new JPanel(new GridLayout(1, 2, 10, 10));
-        Btn btnimport = new Btn(Manager.EDIT_PATH, "Import File");
-        btnimport.addActionListener(e -> UI.findFileToImport());
+        Btn btnImport = new Btn(Manager.EDIT_PATH, "Import File");
+        btnImport.addActionListener(e -> changeNetwork());
         Btn btnExport = new Btn(Manager.EDIT_PATH, "Export To File");
         btnExport.addActionListener(e -> UI.typeFileNameToExport(network));
-        row5.add(btnimport);
+        row5.add(btnImport);
         row5.add(btnExport);
         centerPanel.add(row5);
 
         add(centerPanel, BorderLayout.CENTER);
+    }
+
+    private void changeNetwork() {
+        Network newnNetwork = UI.findFileToImport();
+        if(newnNetwork != null) network = newnNetwork;
     }
 }
 /*

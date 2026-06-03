@@ -121,14 +121,4 @@ public class Network {
         return ans;
     }
 
-    public void ExportToFile() {
-        ExportToFile("Untitled");
-    }
-
-    public void ExportToFile(String filename) {
-        // TODO: implement file export
-
-        java.io.File file = new java.io.File("untitled.txt");
-
-    }
 }

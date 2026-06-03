@@ -2,24 +2,21 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.nio.file.*;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import logic.Fileio;
 import logic.Network;
@@ -27,22 +24,28 @@ import ui.Manager.Btn;
 
 public class UI extends JFrame {
 
+    public static boolean Edited = false;
+
     private static JPanel centerPanel;
     private Network network;
 
+    // ==================== Constructor ====================
+
     public UI(Network network) {
         this.network = network;
-        setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT);
 
+        // Frame setup
+        setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT);
         setResizable(false);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
+        // Save data on window close
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                network.ExportToFile();
+                Fileio.exportToFile(network);
                 JOptionPane.showMessageDialog(null, "Data saved to untitled file");
                 try {
                     Thread.sleep(500);
@@ -53,11 +56,12 @@ public class UI extends JFrame {
             }
         });
 
+        // Add main page
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(new MainPage(network));
-
         add(centerPanel);
 
+        // Frame branding
         ImageIcon icon = new ImageIcon("logo.svg");
         setIconImage(icon.getImage());
         setTitle("'sth' Railways");
@@ -80,6 +84,8 @@ public class UI extends JFrame {
         return backButton;
     }
 
+    // Import Methods
+
     public static Network findFileToImport() {
         String filename = showFileChooser();
         if (filename != null && !filename.isEmpty()) {
@@ -88,60 +94,130 @@ public class UI extends JFrame {
         return null;
     }
 
+    /**
+     * Shows a modal dialog with a dropdown of available files to import.
+     * 
+     * @return Selected filename, or null if cancelled
+     */
     private static String showFileChooser() {
         final String[] result = { null };
-        JFrame f = new JFrame("pick a file to import");
-        JPanel p = new JPanel();
-        JPanel btns = new JPanel(new GridLayout(1, 2, 10, 10));
-        JPanel cbNerr = new JPanel(new GridLayout(2, 1, 0, 0));
-        JComboBox<String> cb = new JComboBox<>(new String[10]);
+
+        // Get available files from Fileio
+        String[] files = Fileio.filesNames();
+        if (files == null) {
+            JOptionPane.showMessageDialog(null, "no files to import", "Oops", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
+        // Create modal dialog
+        JDialog dialog = new JDialog();
+        dialog.setModal(true);
+        dialog.setTitle("Import File");
+
+        // Error label (shows validation errors)
         JLabel errorLabel = new JLabel("");
         errorLabel.setForeground(java.awt.Color.RED);
-        errorLabel.setFont(Manager.defaultFont(false, false));
+        errorLabel.setFont(Manager.hintFont());
 
-        Btn importBtn = new Btn("", "import");
-        Btn cancelBtn = new Btn("", "cancel");
+        // File dropdown
+        JComboBox<String> fileCombo = new JComboBox<>(files);
+        fileCombo.setSelectedIndex(-1);
+        fileCombo.setFont(Manager.defaultFont(false, false));
 
-        cb.setSelectedIndex(-1);
-        cb.setFont(Manager.defaultFont(false, false));
+        // Dropdown + error panel
+        JPanel dropdownPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        dropdownPanel.add(errorLabel);
+        dropdownPanel.add(fileCombo);
 
+        // Import button - returns selected file
+        Btn importBtn = new Btn("", "Import");
         importBtn.addActionListener(e -> {
-            if (cb.getSelectedItem() != null) {
-                result[0] = cb.getSelectedItem().toString();
-                f.dispose();
+            if (fileCombo.getSelectedItem() != null) {
+                result[0] = fileCombo.getSelectedItem().toString();
+                dialog.dispose();
             } else {
                 errorLabel.setText("Please select a file");
-                p.revalidate();
             }
         });
 
+        // Cancel button - returns null
+        Btn cancelBtn = new Btn("", "Cancel");
         cancelBtn.addActionListener(e -> {
             result[0] = null;
-            f.dispose();
+            dialog.dispose();
         });
 
-        btns.add(importBtn);
-        btns.add(cancelBtn);
+        // Button panel
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        buttonPanel.add(importBtn);
+        buttonPanel.add(cancelBtn);
 
-        cbNerr.add(errorLabel);
-        cbNerr.add(cb);
+        // Main panel
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1, 20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        mainPanel.add(dropdownPanel);
+        mainPanel.add(buttonPanel);
 
-        p.setLayout(new GridLayout(2, 1, 20, 20));
-        p.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-        p.add(cbNerr);
-        p.add(btns);
-
-        f.add(p);
-        f.setBounds(Manager.SCREEN_WIDTH / 2 - 200, Manager.SCREEN_HEIGHT / 2 - 120, 400, 240);
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        f.setVisible(true);
+        // Dialog setup
+        dialog.add(mainPanel);
+        dialog.setBounds(
+                Manager.SCREEN_WIDTH / 2 - 200,
+                Manager.SCREEN_HEIGHT / 2 - 120,
+                400, 240);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
 
         return result[0];
     }
 
-    public static Object typeFileNameToExport(Network network) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'typeFileNameToExport'");
+    public static void typeFileNameToExport(Network network) {
+
+        // Create modal dialog
+        JDialog dialog = new JDialog();
+        dialog.setModal(true);
+        dialog.setTitle("Export to File");
+
+        // Error label (shows validation errors)
+        JLabel errorLabel = new JLabel("");
+        errorLabel.setForeground(java.awt.Color.RED);
+        errorLabel.setFont(Manager.hintFont());
+
+        JTextField tf = new JTextField();
+        JPanel dropdownPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        dropdownPanel.add(errorLabel);
+        dropdownPanel.add(tf);
+
+        Btn exportBtn = new Btn("", "Export");
+        exportBtn.addActionListener(e -> {
+            String s = tf.getText();
+            if(s == null || s.isEmpty()){
+                errorLabel.setText("Please type a new file name to export the network to");
+                return;
+            }
+            Fileio.exportToFile(network,s);
+        });
+
+        // Cancel button - returns null
+        Btn cancelBtn = new Btn("", "Cancel");
+        cancelBtn.addActionListener(e ->dialog.dispose());
+
+        // Button panel
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 2, 10, 10));
+        buttonPanel.add(exportBtn);
+        buttonPanel.add(cancelBtn);
+
+        // Main panel
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1, 20, 20));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        mainPanel.add(dropdownPanel);
+        mainPanel.add(buttonPanel);
+
+        // Dialog setup
+        dialog.add(mainPanel);
+        dialog.setBounds(Manager.SCREEN_WIDTH / 2 - 200, Manager.SCREEN_HEIGHT / 2 - 120, 400, 240);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+
     }
 
 }
