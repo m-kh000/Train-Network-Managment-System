@@ -17,7 +17,7 @@ public class AddRoute extends JPanel {
 
     public AddRoute(Network network) {
 
-        names = network.getStationsID_NameArr();
+        names = network.getStationsID_Name();
         setLayout(new BorderLayout());
 
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));

@@ -47,7 +47,7 @@ public class Shortest extends JPanel {
         JLabel find = new JLabel("Find shortest path between:");
         find.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST-40, 50));
 
-        names = network.getStationsID_NameArr();
+        names = network.getStationsID_Name();
 
         from = new JComboBox<>(names);
         to = new JComboBox<>(names);

@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,15 +25,11 @@ import ui.Manager.Btn;
 
 public class UI extends JFrame {
 
-    public static boolean Edited = false;
-
     private static JPanel centerPanel;
-    private Network network;
 
     // ==================== Constructor ====================
 
     public UI(Network network) {
-        this.network = network;
 
         // Frame setup
         setSize(Manager.SCREEN_WIDTH, Manager.SCREEN_HEIGHT);
@@ -41,12 +38,12 @@ public class UI extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        // Save data on window close
+        //* Save data on window close
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 Fileio.exportToFile(network);
-                JOptionPane.showMessageDialog(null, "Data saved to untitled file");
+                JOptionPane.showMessageDialog(null, "Data saved to recent.txt");
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException ex) {
@@ -84,7 +81,13 @@ public class UI extends JFrame {
         return backButton;
     }
 
-    // Import Methods
+    //^ Methods
+
+    //* import methods
+    public static void changeNetwork(Network network) {
+        Network newnNetwork = UI.findFileToImport();
+        if(newnNetwork != null) network = newnNetwork;
+    }
 
     public static Network findFileToImport() {
         String filename = showFileChooser();
@@ -94,11 +97,6 @@ public class UI extends JFrame {
         return null;
     }
 
-    /**
-     * Shows a modal dialog with a dropdown of available files to import.
-     * 
-     * @return Selected filename, or null if cancelled
-     */
     private static String showFileChooser() {
         final String[] result = { null };
 
@@ -170,6 +168,7 @@ public class UI extends JFrame {
         return result[0];
     }
 
+    //* export method
     public static void typeFileNameToExport(Network network) {
 
         // Create modal dialog
@@ -194,7 +193,7 @@ public class UI extends JFrame {
                 errorLabel.setText("Please type a new file name to export the network to");
                 return;
             }
-            Fileio.exportToFile(network,s);
+            Fileio.exportToFile(network,"files/"+s.split(".")[0]+LocalDate.now()+".txt");
         });
 
         // Cancel button - returns null

@@ -111,11 +111,11 @@ public class Network {
         }
     }
 
-    public String[] getStationsID_NameArr() {
+    public String[] getStationsID_Name() {
         String ans[] = new String[stations.size()];
         int i = 0;
-        for (int s : stations.keySet()) {
-            ans[i] = "" + s + "-" + stations.get(s).name;
+        for (Station s : stations.values()) {
+            ans[i] = s.toString();
             i++;
         }
         return ans;

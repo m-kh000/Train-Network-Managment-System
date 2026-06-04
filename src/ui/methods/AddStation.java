@@ -40,7 +40,7 @@ public class AddStation extends JPanel {
     public AddStation(Network network) {
         super(new BorderLayout());
         this.network = network;
-        names = network.getStationsID_NameArr();
+        names = network.getStationsID_Name();
 
         // Outer padding and header
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,

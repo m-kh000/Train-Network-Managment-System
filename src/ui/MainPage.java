@@ -61,21 +61,16 @@ public Network network;
         row3.add(btnAddRoute);
         centerPanel.add(row3);
 
-        // Row 4: Edit Station | Edit Route
-        JPanel row4 = new JPanel(new GridLayout(1, 2, 10, 10));
-        Btn btnEditStation = new Btn(Manager.EDIT_PATH, "Edit Station");
+        // Row 4: Edit Stations and routes
+        Btn btnEditStation = new Btn(Manager.EDIT_PATH, "Edit Stations and Routes");
         btnEditStation.addActionListener(e -> UI.switchContent(new EditStation(network)));
-        Btn btnEditRoute = new Btn(Manager.EDIT_PATH, "Edit Route");
-        btnEditRoute.addActionListener(e -> UI.switchContent(new EditRoute(network)));
-        row4.add(btnEditStation);
-        row4.add(btnEditRoute);
-        centerPanel.add(row4);
+        centerPanel.add(btnEditStation);
 
 
         // Row5 import from file | Export to file
         JPanel row5 = new JPanel(new GridLayout(1, 2, 10, 10));
         Btn btnImport = new Btn(Manager.EDIT_PATH, "Import File");
-        btnImport.addActionListener(e -> changeNetwork());
+        btnImport.addActionListener(e -> UI.changeNetwork(network));
         Btn btnExport = new Btn(Manager.EDIT_PATH, "Export To File");
         btnExport.addActionListener(e -> UI.typeFileNameToExport(network));
         row5.add(btnImport);
@@ -83,11 +78,6 @@ public Network network;
         centerPanel.add(row5);
 
         add(centerPanel, BorderLayout.CENTER);
-    }
-
-    private void changeNetwork() {
-        Network newnNetwork = UI.findFileToImport();
-        if(newnNetwork != null) network = newnNetwork;
     }
 }
 /*

@@ -8,10 +8,10 @@ public class Fileio {
     }
     
     public static void exportToFile(Network network) {
-        exportToFile(network, "Untitled");
+        exportToFile(network, "files/recent.txt");
     }
 
-    public static void exportToFile(Network network, String filename) {
+    public static void exportToFile(Network network, String filePath){
         // TODO
     }
 }
