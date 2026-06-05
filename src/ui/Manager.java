@@ -125,6 +125,7 @@ public class Manager {
         panel.setPreferredSize(new Dimension(60, 60));
         panel.add(UI.backBtn(network), BorderLayout.WEST);
         panel.add(title, BorderLayout.CENTER);
+        panel.add(Box.createVerticalStrut(20));
         return panel;
     }
 }

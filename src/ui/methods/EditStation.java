@@ -1,24 +1,22 @@
 package ui.methods;
 
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
+import java.util.HashMap;
 
-import ui.UI;
+import javax.swing.*;
+
 import ui.Manager;
 import ui.Manager.Btn;
+import ui.components.RouteRow;
 import logic.*;
 
 public class EditStation extends JPanel {
 
     private Network network;
-    private JComboBox<Station> stationCombo;
-    private JTextField nameField;
-    private JPanel routesPanel;
-    private Btn addRouteBtn;
+    private JComboBox<String> stationCombo;
+    private JTextField nameField = new JTextField();
+    private JPanel routesPanel= new JPanel();
+    private Btn addRouteBtn = new Btn("");
     private Btn submitBtn;
     private Btn discardBtn;
     private Btn deleteStationBtn;
@@ -32,97 +30,84 @@ public class EditStation extends JPanel {
         setBackground(Manager.defaultBGColor());
 
         // Side panels
-        JPanel leftPanel = new JPanel();
-        JPanel rightPanel = new JPanel();
-        leftPanel.setPreferredSize(new Dimension(100, 0));
-        rightPanel.setPreferredSize(new Dimension(100, 0));
-        add(leftPanel, BorderLayout.WEST);
-        add(rightPanel, BorderLayout.EAST);
+        setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
 
         // Components
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-
-        // Title panel
-        mainPanel.add(Manager.topPanel("Edit Station", network));
-        mainPanel.add(Box.createVerticalStrut(20));
+        JPanel main = new JPanel();
+        main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
+        main.add(Manager.topPanel("Edit Station", network));
 
         // Select station panel
-        JPanel selectPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        JPanel selectPanel = new JPanel();
+        selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.X_AXIS));
         JLabel selectLabel = new JLabel("Select Station:");
         selectLabel.setFont(Manager.defaultFont(true, false));
-        Station[] stations = network.getStations().values().toArray(new Station[0]);
-        stationCombo = new JComboBox<>(stations);
+        stationCombo = new JComboBox<>(network.getStationsID_Name());
         stationCombo.setSelectedItem(null);
         stationCombo.setFont(Manager.defaultFont(false, false));
         
         selectPanel.add(selectLabel);
         selectPanel.add(stationCombo);
-        mainPanel.add(selectPanel);
-        mainPanel.add(Box.createVerticalStrut(15));
+        main.add(selectPanel);
+        main.add(Box.createVerticalStrut(15));
 
-        // Station name field
-        JPanel namePanel = new JPanel(new BorderLayout(10, 0));
+        // --- Station name row
+        JPanel nameRow = new JPanel(new BorderLayout(10, 0));
         JLabel nameLabel = new JLabel("Station Name:");
         nameLabel.setFont(Manager.defaultFont(true, false));
         nameLabel.setPreferredSize(new Dimension(150, 30));
-        nameField = new JTextField();
         nameField.setFont(Manager.defaultFont(false, false));
-        namePanel.add(nameLabel, BorderLayout.WEST);
-        namePanel.add(nameField, BorderLayout.CENTER);
-        mainPanel.add(namePanel);
-        mainPanel.add(Box.createVerticalStrut(20));
+        nameRow.add(nameLabel, BorderLayout.WEST);
+        nameRow.add(nameField, BorderLayout.CENTER);
+        main.add(nameRow);
+        main.add(Box.createVerticalStrut(20));
 
         // Routes management panel
         JPanel routesHeaderPanel = new JPanel(new BorderLayout());
         JLabel routesLabel = new JLabel("Routes:");
         routesLabel.setFont(Manager.defaultFont(true, false));
         
-        addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route");
-        addRouteBtn.setPreferredSize(new Dimension(140, 35));
-        addRouteBtn.addActionListener(e -> {
-            if (currentStation != null) {
-                addRouteRow();
-            } else {
-                JOptionPane.showMessageDialog(null, "Please select a station first.");
-            }
-        });
+        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route");
+        addRouteBtn.setPreferredSize(new Dimension(140, 30));
+        addRouteBtn.addActionListener(e -> addRouteRow());
         
         routesHeaderPanel.add(routesLabel, BorderLayout.WEST);
         routesHeaderPanel.add(addRouteBtn, BorderLayout.EAST);
-        mainPanel.add(routesHeaderPanel);
-        mainPanel.add(Box.createVerticalStrut(10));
+        main.add(routesHeaderPanel);
+        main.add(Box.createVerticalStrut(10));
 
-        // Routes panel with scroll
-        routesPanel = new JPanel();
+        // --- Routes list (scrollable)
         routesPanel.setLayout(new BoxLayout(routesPanel, BoxLayout.Y_AXIS));
-        routesPanel.setBorder(BorderFactory.createTitledBorder("Current Routes"));
-        
-        JScrollPane scrollPane = new JScrollPane(routesPanel);
-        scrollPane.setPreferredSize(new Dimension(600, 200));
-        scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        mainPanel.add(scrollPane);
-        mainPanel.add(Box.createVerticalStrut(20));
+        routesPanel.setBorder(BorderFactory.createTitledBorder("Routes"));
+        JScrollPane scroll = new JScrollPane(routesPanel);
+        scroll.setPreferredSize(new Dimension(500, 400));
+        main.add(scroll);
+
+        //delete station button
+        JPanel deleteRow = new JPanel(new BorderLayout());
+        deleteRow.setPreferredSize(new Dimension(40,40));
+        deleteRow.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
+        deleteStationBtn = new Btn("", "Delete Station");
+        deleteRow.add(deleteStationBtn,BorderLayout.CENTER);
+        deleteStationBtn.setBackground(new Color(220, 60, 60));
+        main.add(deleteRow);
+        main.add(Box.createVerticalStrut(10));
 
         // Action buttons panel
-        JPanel actionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        submitBtn = new Btn("", "Save Changes");
+        JPanel actionPanel = new JPanel(new GridLayout(1,2,20,20));
+        actionPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+        submitBtn = new Btn("", "Save");
         discardBtn = new Btn("", "Discard");
-        deleteStationBtn = new Btn("", "Delete Station");
-        deleteStationBtn.setBackground(new Color(220, 60, 60));
-        
-        submitBtn.setPreferredSize(new Dimension(150, 40));
-        discardBtn.setPreferredSize(new Dimension(120, 40));
-        deleteStationBtn.setPreferredSize(new Dimension(140, 40));
 
         actionPanel.add(submitBtn);
         actionPanel.add(discardBtn);
-        actionPanel.add(deleteStationBtn);
-        mainPanel.add(actionPanel);
+        main.add(actionPanel);
 
-        add(mainPanel, BorderLayout.CENTER);
+        add(main, BorderLayout.CENTER);
 
+        // Initially disable form (no station selected)
+        setFormEnabled(false);
+        
         // ==================== Listeners ====================
 
         // Auto-populate fields when station is selected
@@ -149,8 +134,6 @@ public class EditStation extends JPanel {
             }
         });
 
-        // Initially disable form (no station selected)
-        setFormEnabled(false);
 
         // Submit button - save all changes
         submitBtn.addActionListener(e -> {
@@ -160,41 +143,59 @@ public class EditStation extends JPanel {
             }
             
             try {
-                // Update station name if changed
+                // Validate station name field
                 String newName = nameField.getText().trim();
-                if (!newName.isEmpty() && !newName.equals(currentStation.name)) {
-                    currentStation.setName(newName);
+                if (newName.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Station name cannot be empty.");
+                    return;
                 }
                 
-                // Update routes
+                // Validate all route rows
+                HashMap<Integer, Route> updatedRoutes = new HashMap<>();
+                
                 for (RouteRow row : routeRows) {
-                    if (row.toCombo.getSelectedItem() != null) {
-                        Station to = (Station) row.toCombo.getSelectedItem();
-                        String weightText = row.weightField.getText().trim();
-                        
-                        if (!weightText.isEmpty()) {
-                            int weight = Integer.parseInt(weightText);
-                            boolean isNewRoute = row.getRouteId() == null;
-                            
-                            if (isNewRoute) {
-                                // Add new route
-                                currentStation.addRoute(new Route(currentStation, to, weight));
-                            } else {
-                                // Update existing route
-                                Route existingRoute = currentStation.getRoute(to.id);
-                                if (existingRoute != null) {
-                                    existingRoute.weight = weight;
-                                }
-                            }
-                        }
+                    if (row.toSelected() == null) {
+                        JOptionPane.showMessageDialog(null, "Please select a destination station for all routes.");
+                        return;
                     }
+                    
+                    String to = (String) row.toSelected();
+                    String weightText = row.getWeight();
+                    
+                    if (weightText.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Please enter a weight for all routes.");
+                        return;
+                    }
+                    
+                    // Validate weight is a number
+                    int weight;
+                    try {
+                        weight = Integer.parseInt(weightText);
+                        if (weight <= 0) {
+                            JOptionPane.showMessageDialog(null, "Route weight must be a positive number.");
+                            return;
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Route weight must be a valid number.");
+                        return;
+                    }
+                    
+                    int toId = Integer.parseInt(to.split("-")[0]);
+                    // Check: station cannot have a route to itself
+                    if (toId == currentStation.id) {
+                        JOptionPane.showMessageDialog(null, "A station cannot have a route to itself.");
+                        return;
+                    }
+                    
+                    // Create route and add to map
+                    Route route = new Route(currentStation, network.findStationById(to), weight);
+                    updatedRoutes.put(toId, route);
                 }
                 
-                Manager.isEdited = true;
+                // Call modifyStation method with validated data
+                network.modifyStation(currentStation.id, newName, updatedRoutes);
                 JOptionPane.showMessageDialog(null, "Station updated successfully!");
                 
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Please enter valid route weights.");
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
             }
@@ -222,11 +223,10 @@ public class EditStation extends JPanel {
                 "Confirm Delete", JOptionPane.YES_NO_OPTION);
                 
             if (confirm == JOptionPane.YES_OPTION) {
-                // TODO: Remove station from network
-                JOptionPane.showMessageDialog(null, "Station deleted (functionality to be implemented).");
+                network.deleteStation(currentStation);
+                JOptionPane.showMessageDialog(null, "Station deleted successfully.");
                 stationCombo.removeItem(currentStation);
                 clearForm();
-                setFormEnabled(false);
             }
         });
     }
@@ -239,7 +239,7 @@ public class EditStation extends JPanel {
         routeRows.clear();
         
         for (Route route : station.getRouts().values()) {
-            RouteRow row = new RouteRow(route.to, route.weight);
+            RouteRow row = new RouteRow(network,routesPanel,routeRows,route.to.toString(), route.weight);
             routeRows.add(row);
             routesPanel.add(row);
         }
@@ -249,7 +249,7 @@ public class EditStation extends JPanel {
     }
 
     private void addRouteRow() {
-        RouteRow row = new RouteRow();
+        RouteRow row = new RouteRow(network,routesPanel,routeRows);
         routeRows.add(row);
         routesPanel.add(row);
         routesPanel.revalidate();
@@ -263,6 +263,8 @@ public class EditStation extends JPanel {
         routesPanel.revalidate();
         routesPanel.repaint();
         currentStation = null;
+        stationCombo.setSelectedItem(null);
+        setFormEnabled(false);
     }
 
     // Enable/disable form fields based on station selection
@@ -275,74 +277,8 @@ public class EditStation extends JPanel {
         
         // Enable/disable all existing route rows
         for (RouteRow row : routeRows) {
-            row.toCombo.setEnabled(enabled);
-            row.weightField.setEnabled(enabled);
-            row.deleteBtn.setEnabled(enabled);
+            row.setEnabled(false);
         }
     }
 
-    // Inner class for route rows
-    private class RouteRow extends JPanel {
-        JComboBox<Station> toCombo;
-        JTextField weightField;
-        Btn deleteBtn;
-        Integer routeId; // null for new routes
-        boolean isExistingRoute;
-        
-        public RouteRow() {
-            this(null, 0);
-        }
-        
-        public RouteRow(Station to, int weight) {
-            this.isExistingRoute = (to != null);
-            setLayout(new BorderLayout(10, 0));
-            setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
-            setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-            
-            // To Station dropdown
-            JLabel toLabel = new JLabel("To:");
-            toLabel.setFont(Manager.defaultFont(true, false));
-            toLabel.setPreferredSize(new Dimension(50, 30));
-            add(toLabel, BorderLayout.WEST);
-            
-            toCombo = new JComboBox<>(network.getStations().values().toArray(new Station[0]));
-            toCombo.setFont(Manager.defaultFont(false, false));
-            if (to != null) {
-                toCombo.setSelectedItem(to);
-            }
-            add(toCombo, BorderLayout.CENTER);
-            
-            // Weight field
-            JPanel weightPanel = new JPanel(new BorderLayout(5, 0));
-            JLabel weightLabel = new JLabel("Weight:");
-            weightLabel.setFont(Manager.defaultFont(true, false));
-            weightLabel.setPreferredSize(new Dimension(70, 30));
-            
-            weightField = new JTextField();
-            weightField.setFont(Manager.defaultFont(false, false));
-            weightField.setPreferredSize(new Dimension(80, 30));
-            // Fill if old route, empty if new
-            weightField.setText(isExistingRoute ? String.valueOf(weight) : "");
-            
-            weightPanel.add(weightLabel, BorderLayout.WEST);
-            weightPanel.add(weightField, BorderLayout.CENTER);
-            add(weightPanel, BorderLayout.EAST);
-            
-            // Delete button for ALL routes (red X)
-            deleteBtn = new Btn("", "X");
-            deleteBtn.setPreferredSize(new Dimension(40, 30));
-            deleteBtn.setBackground(new Color(220, 60, 60));
-            deleteBtn.addActionListener(e -> {
-                routesPanel.remove(this);
-                routeRows.remove(this);
-                routesPanel.revalidate();
-                routesPanel.repaint();
-            });
-            add(deleteBtn, BorderLayout.AFTER_LINE_ENDS);
-        }
-        
-        public Integer getRouteId() {
-            return routeId;
-        }
-    }
 }

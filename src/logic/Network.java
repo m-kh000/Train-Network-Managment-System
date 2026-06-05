@@ -121,4 +121,29 @@ public class Network {
         return ans;
     }
 
+    // Modify station with new name and routes
+    public void modifyStation(int stationId, String name, HashMap<Integer, Route> routes) {
+        Station station = stations.get(stationId);
+        if (station == null) {
+            throw new IllegalArgumentException("Station with ID " + stationId + " not found");
+        }
+        
+        // Update station name
+        station.modify(name , routes);
+    }
+
+    public Station findStationById(String to) {
+        // Extract ID from string like "1-StationName"
+        int id = Integer.parseInt(to.split("-")[0]);
+        return stations.get(id);
+    }
+
+    public void deleteStation(Station station) {
+        stations.remove(station.id);
+        
+        // Also remove all routes pointing to this station from other stations
+        for (Station s : stations.values()) {
+            s.getRouts().remove(station.id);
+        }
+    }
 }
