@@ -67,7 +67,7 @@ public class AddStation extends JPanel {
         JLabel routesLabel = new JLabel("Routes:");
         routesLabel.setFont(Manager.defaultFont(true, false));
         
-        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route");
+        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route",false);
         addRouteBtn.setPreferredSize(new Dimension(140, 30));
         addRouteBtn.addActionListener(e -> addRouteRow());
         

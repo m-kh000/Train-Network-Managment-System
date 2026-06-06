@@ -34,6 +34,7 @@ public class AddRoute extends JPanel {
         fromLabel.setFont(Manager.defaultFont(true, false));
         fromLabel.setPreferredSize(new Dimension(150, 30));
         fromCombo = new JComboBox<>(names);
+        fromCombo.setSelectedIndex(-1);
         fromCombo.setFont(Manager.defaultFont(false, false));
         fromRow.setPreferredSize(new Dimension(150, 30));
         fromRow.add(fromLabel, BorderLayout.WEST);
@@ -47,6 +48,7 @@ public class AddRoute extends JPanel {
         toLabel.setFont(Manager.defaultFont(true, false));
         toLabel.setPreferredSize(new Dimension(150, 30));
         toCombo = new JComboBox<>(names);
+        toCombo.setSelectedIndex(-1);
         toCombo.setFont(Manager.defaultFont(false, false));
         toRow.add(toLabel, BorderLayout.WEST);
         toRow.add(toCombo, BorderLayout.CENTER);
@@ -80,8 +82,8 @@ public class AddRoute extends JPanel {
 
         submitBtn.addActionListener(e -> {
             try {
-                Station from = (Station) fromCombo.getSelectedItem();
-                Station to = (Station) toCombo.getSelectedItem();
+                Station from = network.findStationById((String) fromCombo.getSelectedItem());
+                Station to = network.findStationById((String) toCombo.getSelectedItem());
                 String weightText = weightField.getText().trim();
 
                 if (from == null || to == null || weightText.isEmpty()) {
@@ -93,6 +95,8 @@ public class AddRoute extends JPanel {
                 from.addRoute(new Route(from, to, weight));
 
                 weightField.setText("");
+                fromCombo.setSelectedIndex(-1);
+                toCombo.setSelectedIndex(-1);
                 JOptionPane.showMessageDialog(null, "Route added successfully.");
 
             } catch (NumberFormatException ex) {

@@ -42,6 +42,7 @@ public class EditStation extends JPanel {
         selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.X_AXIS));
         JLabel selectLabel = new JLabel("Select Station:");
         selectLabel.setFont(Manager.defaultFont(true, false));
+        selectLabel.setPreferredSize(new Dimension(150, 30));
         stationCombo = new JComboBox<>(network.getStationsID_Name());
         stationCombo.setSelectedItem(null);
         stationCombo.setFont(Manager.defaultFont(false, false));
@@ -67,7 +68,7 @@ public class EditStation extends JPanel {
         JLabel routesLabel = new JLabel("Routes:");
         routesLabel.setFont(Manager.defaultFont(true, false));
         
-        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route");
+        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route",false);
         addRouteBtn.setPreferredSize(new Dimension(140, 30));
         addRouteBtn.addActionListener(e -> addRouteRow());
         
@@ -112,7 +113,7 @@ public class EditStation extends JPanel {
 
         // Auto-populate fields when station is selected
         stationCombo.addActionListener(e -> {
-            Station selected = (Station) stationCombo.getSelectedItem();
+            Station selected = network.findStationById((String) stationCombo.getSelectedItem());
             if (selected != null) {
                 currentStation = selected;
                 loadStationData(selected);
@@ -194,6 +195,7 @@ public class EditStation extends JPanel {
                 
                 // Call modifyStation method with validated data
                 network.modifyStation(currentStation.id, newName, updatedRoutes);
+                clearForm();
                 JOptionPane.showMessageDialog(null, "Station updated successfully!");
                 
             } catch (Exception ex) {
@@ -224,9 +226,9 @@ public class EditStation extends JPanel {
                 
             if (confirm == JOptionPane.YES_OPTION) {
                 network.deleteStation(currentStation);
+                clearForm();
                 JOptionPane.showMessageDialog(null, "Station deleted successfully.");
                 stationCombo.removeItem(currentStation);
-                clearForm();
             }
         });
     }
@@ -277,7 +279,7 @@ public class EditStation extends JPanel {
         
         // Enable/disable all existing route rows
         for (RouteRow row : routeRows) {
-            row.setEnabled(false);
+            row.setEnabled(enabled);
         }
     }
 
