@@ -16,7 +16,7 @@ public class EditStation extends JPanel {
     private JComboBox<String> stationCombo;
     private JTextField nameField = new JTextField();
     private JPanel routesPanel= new JPanel();
-    private Btn addRouteBtn = new Btn("");
+    private Btn addRouteBtn;
     private Btn submitBtn;
     private Btn discardBtn;
     private Btn deleteStationBtn;
@@ -27,7 +27,6 @@ public class EditStation extends JPanel {
         this.network = network;
         
         setLayout(new BorderLayout());
-        setBackground(Manager.defaultBGColor());
 
         // Side panels
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
@@ -39,7 +38,7 @@ public class EditStation extends JPanel {
 
         // Select station panel
         JPanel selectPanel = new JPanel();
-        selectPanel.setLayout(new BoxLayout(selectPanel, BoxLayout.X_AXIS));
+        selectPanel.setLayout(new BorderLayout());
         JLabel selectLabel = new JLabel("Select Station:");
         selectLabel.setFont(Manager.defaultFont(true, false));
         selectLabel.setPreferredSize(new Dimension(150, 30));
@@ -47,13 +46,13 @@ public class EditStation extends JPanel {
         stationCombo.setSelectedItem(null);
         stationCombo.setFont(Manager.defaultFont(false, false));
         
-        selectPanel.add(selectLabel);
-        selectPanel.add(stationCombo);
+        selectPanel.add(selectLabel, BorderLayout.WEST);
+        selectPanel.add(stationCombo, BorderLayout.CENTER);
         main.add(selectPanel);
         main.add(Box.createVerticalStrut(15));
 
         // --- Station name row
-        JPanel nameRow = new JPanel(new BorderLayout(10, 0));
+        JPanel nameRow = new JPanel(new BorderLayout());
         JLabel nameLabel = new JLabel("Station Name:");
         nameLabel.setFont(Manager.defaultFont(true, false));
         nameLabel.setPreferredSize(new Dimension(150, 30));
@@ -68,8 +67,8 @@ public class EditStation extends JPanel {
         JLabel routesLabel = new JLabel("Routes:");
         routesLabel.setFont(Manager.defaultFont(true, false));
         
-        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route",false);
-        addRouteBtn.setPreferredSize(new Dimension(140, 30));
+        addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route",false);
+        addRouteBtn.setPreferredSize(new Dimension(160, 30));
         addRouteBtn.addActionListener(e -> addRouteRow());
         
         routesHeaderPanel.add(routesLabel, BorderLayout.WEST);
@@ -81,22 +80,26 @@ public class EditStation extends JPanel {
         routesPanel.setLayout(new BoxLayout(routesPanel, BoxLayout.Y_AXIS));
         routesPanel.setBorder(BorderFactory.createTitledBorder("Routes"));
         JScrollPane scroll = new JScrollPane(routesPanel);
-        scroll.setPreferredSize(new Dimension(500, 400));
+        scroll.setPreferredSize(new Dimension(500, 350));
         main.add(scroll);
 
         //delete station button
         JPanel deleteRow = new JPanel(new BorderLayout());
-        deleteRow.setPreferredSize(new Dimension(40,40));
-        deleteRow.setBorder(BorderFactory.createEmptyBorder(0, 100, 0, 100));
-        deleteStationBtn = new Btn("", "Delete Station");
+        deleteRow.setPreferredSize(new Dimension(50,50));
+        deleteRow.setBorder(BorderFactory.createEmptyBorder(10, 200, 0, 200));
+        deleteStationBtn = new Btn("", "Delete Station", false);
         deleteRow.add(deleteStationBtn,BorderLayout.CENTER);
-        deleteStationBtn.setBackground(new Color(220, 60, 60));
+        
+        deleteStationBtn.setBackground(Manager.defaultBGColor());
+        deleteStationBtn.setBorder(BorderFactory.createLineBorder(new Color(180, 60, 60)));
+        deleteStationBtn.setForeground(new Color(180, 60, 60));
         main.add(deleteRow);
         main.add(Box.createVerticalStrut(10));
 
         // Action buttons panel
         JPanel actionPanel = new JPanel(new GridLayout(1,2,20,20));
         actionPanel.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+        actionPanel.setPreferredSize(new Dimension(55,55));
         submitBtn = new Btn("", "Save");
         discardBtn = new Btn("", "Discard");
 

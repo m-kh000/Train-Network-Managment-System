@@ -2,6 +2,7 @@ package logic;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -145,5 +146,23 @@ public class Network {
         for (Station s : stations.values()) {
             s.getRouts().remove(station.id);
         }
+    }
+
+    // Get stations sorted by number of routes (descending)
+    public Collection<Station> getSortedStations() {
+        ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
+        
+        sortedStations.sort((s1, s2) -> {
+            int routes1 = s1.getRouts() != null ? s1.getRouts().size() : 0;
+            int routes2 = s2.getRouts() != null ? s2.getRouts().size() : 0;
+            return Integer.compare(routes2, routes1); // Descending order
+        });
+        
+        return sortedStations;
+    }
+    
+    // Get stations in natural/unsorted order (as stored in HashMap)
+    public Collection<Station> getUnsortedStations() {
+        return stations.values();
     }
 }

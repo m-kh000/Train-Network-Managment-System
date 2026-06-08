@@ -11,11 +11,11 @@ import javax.swing.SwingConstants;
 
 import logic.Network;
 import ui.Manager.Btn;
+import ui.components.ShowStations;
 import ui.methods.AddRoute;
 import ui.methods.AddStation;
 import ui.methods.EditStation;
 import ui.methods.ShowMap;
-import ui.methods.ShowStations;
 
 public class MainPage extends JPanel {
 public Network network;
@@ -38,7 +38,7 @@ public Network network;
 
         // Center panel
         JPanel centerPanel = new JPanel(new GridLayout(5, 1, 0, Manager.ROW_SPACING));
-        ///////// centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
+        // centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
 
         // Row 1: Our Stations
         Btn btnStations = new Btn(Manager.STATION_PATH, "Our Stations");

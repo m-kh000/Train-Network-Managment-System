@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
