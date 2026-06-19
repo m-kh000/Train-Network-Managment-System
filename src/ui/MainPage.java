@@ -11,11 +11,11 @@ import javax.swing.SwingConstants;
 
 import logic.Network;
 import ui.Manager.Btn;
-import ui.components.ShowStations;
 import ui.methods.AddRoute;
 import ui.methods.AddStation;
 import ui.methods.EditStation;
 import ui.methods.ShowMap;
+import ui.methods.ShowStations;
 
 public class MainPage extends JPanel {
 public Network network;

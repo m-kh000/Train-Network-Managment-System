@@ -22,9 +22,9 @@ public class Manager {
     private static final int NORMAL_SIZE = 16;
     private static final int BIG_SIZE = 24;
     private static final Color BACKGROUND_COLOR = new Color(240, 240, 250);
-    private static final Color BUTTON_COLOR = new Color(240, 190, 80);
-    private static final Color BUTTON_TEXT = new Color(255, 255, 255);
-    private static final Color BUTTON_OUTLINE = new Color(208, 145, 130);
+    public  static final Color BUTTON_COLOR = new Color(240, 190, 80);
+    public  static final Color BUTTON_TEXT = new Color(255, 255, 255);
+    public  static final Color BUTTON_OUTLINE = new Color(208, 145, 130);
     private static final Color HOVER_BORDER_COLOR = new Color(216, 90, 59);
 
     public static boolean isEdited = false;
@@ -124,7 +124,7 @@ public class Manager {
         panel.setPreferredSize(new Dimension(60, 60));
         panel.add(UI.backBtn(network), BorderLayout.WEST);
         panel.add(title, BorderLayout.CENTER);
-        panel.add(Box.createVerticalStrut(20));
+        // panel.add(Box.createVerticalStrut(20));
         return panel;
     }
 }

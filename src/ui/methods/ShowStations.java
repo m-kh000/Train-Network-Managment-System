@@ -1,4 +1,4 @@
-package ui.components;
+package ui.methods;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,9 +39,15 @@ public class ShowStations extends JPanel {
         JLabel sortLabel = new JLabel("Sort by:");
         sortLabel.setFont(Manager.defaultFont(true, false));
         
-        sortToggle = new JToggleButton("Route Count");
-        sortToggle.setFont(Manager.defaultFont(false, false));
-        sortToggle.setPreferredSize(new Dimension(160, 40));
+        sortToggle = new JToggleButton(" routes ");
+        sortToggle.setFocusPainted(false);
+        sortToggle.setFont(Manager.defaultFont(true, false));
+        sortToggle.setBackground(Manager.BUTTON_COLOR);
+        sortToggle.setForeground(Manager.BUTTON_TEXT);
+        sortToggle.setHorizontalAlignment(SwingConstants.CENTER);
+        sortToggle.setHorizontalTextPosition(SwingConstants.LEFT);
+        sortToggle.setBorder(BorderFactory.createLineBorder(Manager.BUTTON_OUTLINE, 1));
+        sortToggle.setOpaque(true);
         sortToggle.setSelected(false); // Default to unsorted
         sortToggle.addActionListener(e -> {
             sortByRoutes = sortToggle.isSelected();
@@ -59,7 +65,7 @@ public class ShowStations extends JPanel {
         stationsPanel.setBorder(BorderFactory.createTitledBorder("Stations List"));
         
         JScrollPane scrollPane = new JScrollPane(stationsPanel);
-        scrollPane.setPreferredSize(new Dimension(600, 400));
+        // scrollPane.setPreferredSize(new Dimension(600, 400));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         main.add(scrollPane);
         
@@ -76,10 +82,10 @@ public class ShowStations extends JPanel {
         Collection<Station> stations;
         if (sortByRoutes) {
             stations = sorted;
-            sortToggle.setText("Route Count ✓");
+            sortToggle.setText(" routes ");
         } else {
             stations = unsorted;
-            sortToggle.setText("Route Count x");
+            sortToggle.setText(" routes ");
         }
         
         // Display stations
@@ -100,35 +106,29 @@ public class ShowStations extends JPanel {
     }
 
     private JPanel createStationPanel(Station station) {
-        JPanel panel = new JPanel(new BorderLayout(10, 0));
-        panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         panel.setBackground(Color.WHITE);
-        
-        // Station info
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-        infoPanel.setBackground(Color.WHITE);
-        
-        JLabel nameLabel = new JLabel(station.name);
-        nameLabel.setFont(Manager.defaultFont(true, false));
-        
-        int routeCount = station.getRouts() != null ? station.getRouts().size() : 0;
-        JLabel routesLabel = new JLabel("Routes: " + routeCount);
-        routesLabel.setFont(Manager.defaultFont(false, false));
-        routesLabel.setForeground(Color.DARK_GRAY);
-        
-        infoPanel.add(nameLabel);
-        infoPanel.add(Box.createVerticalStrut(5));
-        infoPanel.add(routesLabel);
-        
-        panel.add(infoPanel, BorderLayout.CENTER);
         
         // Station ID on the right
         JLabel idLabel = new JLabel("ID: " + station.id);
-        idLabel.setFont(Manager.defaultFont(false, true));
-        idLabel.setForeground(Color.BLUE);
-        panel.add(idLabel, BorderLayout.EAST);
+        idLabel.setFont(Manager.defaultFont(false, false));
+        idLabel.setForeground(Color.BLACK);
+        panel.add(idLabel);
+        panel.add(Box.createHorizontalStrut(60));
+        
+        JLabel nameLabel = new JLabel(station.name + "\t");
+        nameLabel.setFont(Manager.defaultFont(true, true));
+        panel.add(nameLabel);
+        panel.add(Box.createHorizontalStrut(530));
+
+        int routeCount = station.getRouts() != null ? station.getRouts().size() : 0;
+        JLabel routesLabel = new JLabel("routes: " + routeCount);
+        routesLabel.setFont(Manager.defaultFont(false, false));
+        routesLabel.setForeground(Color.GRAY);
+        panel.add(routesLabel);
         
         return panel;
     }
