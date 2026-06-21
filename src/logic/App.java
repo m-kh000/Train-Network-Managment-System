@@ -17,7 +17,9 @@ public class App {
         network.addStation(new Station("G"));
         network.addStation(new Station("G"));
 
-        network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(2), 10));
+        network.addRoute(1,2, 10);
+        network.addRoute(2, 3, 100);
+        network.addRoute(3, 4, 50);
         network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(3), 20));
         network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(5), 15));
         network.getStation(2).addRoute(new Route(network.getStation(2), network.getStation(4), 30));
@@ -28,6 +30,9 @@ public class App {
         network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
         network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        new UI(network);
+        //new UI(network);
+
+        System.out.println(network.hasCycle());
+
     }
 }
