@@ -6,12 +6,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class Network {
-    private HashMap<Integer, Station> stations = new HashMap<>();
-    private Map <Station , List<Route>> routes = new HashMap<>();
+    public HashMap<Integer, Station> stations = new HashMap<>();
+    private HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
 
     public Network(File file) {
         // TODO Auto-generated constructor stub
@@ -23,7 +22,7 @@ public class Network {
 
     public void addStation(Station s) {
         stations.put(s.id, s);
-        routes.put(s, new ArrayList<>());
+        routes.putIfAbsent(s, new HashMap<>());
     }
 
     public Station getStation(int id) {
@@ -42,7 +41,16 @@ public class Network {
         if (toStation == null) 
             throw new IllegalArgumentException("Station with ID " + to + " not found");
         
-        routes.get(fromStation).add(new Route(fromStation, toStation, weight));
+        boolean dou = false ;
+
+        if (routes.get(toStation).get(fromStation)== null) {
+            dou = false;
+        }
+        else 
+            dou = true;
+        routes.get(fromStation).putIfAbsent(toStation,new Route(fromStation, toStation, weight , dou));
+        
+
     }
 
 
@@ -135,7 +143,7 @@ public class Network {
         }
         
         // Update station name
-        station.modify(name , routes);
+        //station.modify(name , routes);
     }
 
     public Station findStationById(String to) {
@@ -144,27 +152,27 @@ public class Network {
         return stations.get(id);
     }
 
-    public void deleteStation(Station station) {
-        stations.remove(station.id);
+    // public void deleteStation(Station station) {
+    //     stations.remove(station.id);
         
-        // Also remove all routes pointing to this station from other stations
-        for (Station s : stations.values()) {
-            s.getRouts().remove(station.id);
-        }
-    }
+    //     // Also remove all routes pointing to this station from other stations
+    //     for (Station s : stations.values()) {
+    //         s.getRouts().remove(station.id);
+    //     }
+    // }
 
     // Get stations sorted by number of routes (descending)
-    public Collection<Station> getSortedStations() {
-        ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
+    // public Collection<Station> getSortedStations() {
+    //     ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
         
-        sortedStations.sort((s1, s2) -> {
-            int routes1 = s1.getRouts() != null ? s1.getRouts().size() : 0;
-            int routes2 = s2.getRouts() != null ? s2.getRouts().size() : 0;
-            return Integer.compare(routes2, routes1); // Descending order
-        });
+    //    // sortedStations.sort((s1, s2) -> {
+    //         //int routes1 = s1.getRouts() != null ? s1.getRouts().size() : 0;
+    //         //int routes2 = s2.getRouts() != null ? s2.getRouts().size() : 0;
+    //        // return Integer.compare(routes2, routes1); // Descending order
+    //     });
         
-        return sortedStations;
-    }
+    //     return sortedStations;
+    // }
     
     // Get stations in natural/unsorted order (as stored in HashMap)
     public Collection<Station> getUnsortedStations() {
@@ -190,7 +198,7 @@ public class Network {
         all.remove(station);
         visiting.add(station);
 
-        for (Route route : routes.get(station)) {
+        for (Route route : routes.get(station).values()) {
             if (visited.contains(route.to))
                 continue;
             if (visiting.contains(route.to)) 
