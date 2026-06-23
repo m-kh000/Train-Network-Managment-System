@@ -14,6 +14,7 @@ public class GraphPage extends JPanel {
 
     // Model references
     private HashMap<Integer, Station> stations = null;
+    private Network network = null;
 
     // UI component maps
     HashMap<Integer, StationComponent> st_ui = new HashMap<>();
@@ -35,6 +36,7 @@ public class GraphPage extends JPanel {
     private int radius = Math.abs(Math.min(width, height) - padding) / 2;
 
     public GraphPage(Network network, Color stationColor, Color roadColor, Color shortestRoadColor, Color bg, ArrayList<Route> shortestPath) {
+        this.network = network;
         this.shortestPath = shortestPath;
         this.stations = network.getStations();
         this.stationColor = stationColor;
@@ -60,7 +62,7 @@ public class GraphPage extends JPanel {
         }
         for (Station from : stations.values()) {
             StationComponent fromComp = st_ui.get(from.id);
-            for (Route r : from.getRouts().values()) {
+            for (Route r : network.getRoutesOfStation(from)) {
                 StationComponent toComp = st_ui.get(r.to.id);
                 ro_ui.put(from.id + "_" + r.to.id, new RouteComponent(fromComp, toComp, r));
                 if (shortestPath != null && shortestPath.contains(r)) {

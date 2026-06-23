@@ -82,17 +82,25 @@ public class AddRoute extends JPanel {
 
         submitBtn.addActionListener(e -> {
             try {
-                Station from = network.findStationById((String) fromCombo.getSelectedItem());
-                Station to = network.findStationById((String) toCombo.getSelectedItem());
+                int from = Integer.parseInt(((String)fromCombo.getSelectedItem()).split("-")[0]);
+                int to = Integer.parseInt(((String)toCombo.getSelectedItem()).split("-")[0]);
                 String weightText = weightField.getText().trim();
 
-                if (from == null || to == null || weightText.isEmpty()) {
+                if (from < 0 || to < 0 || weightText.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please fill all fields.");
+                    return;
+                }
+                if(from == to){
+                    JOptionPane.showMessageDialog(null, "A Station cannot have a route to itself");
                     return;
                 }
 
                 int weight = Integer.parseInt(weightText);
-                from.addRoute(new Route(from, to, weight));
+                if(weight < 0){
+                    JOptionPane.showMessageDialog(null, "Please enter a positive weight.");
+                    return;
+                }
+                network.addRoute(from, to, weight);
 
                 weightField.setText("");
                 fromCombo.setSelectedIndex(-1);

@@ -35,12 +35,10 @@ public class AddStation extends JPanel {
 
     private final JPanel routesPanel = new JPanel();
     private final List<RouteRow> routeRows = new ArrayList<>();
-    private String[] names;
 
     public AddStation(Network network) {
         super(new BorderLayout());
         this.network = network;
-        names = network.getStationsID_Name();
 
         // Outer padding and header
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE, Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE));
@@ -138,7 +136,10 @@ public class AddStation extends JPanel {
                         return;
                     }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Route weight must be a valid number.");
+                    JOptionPane.showMessageDialog(this, "Please enter a valid weight.");
+                    return;
+                }catch (Exception e){
+                    JOptionPane.showMessageDialog(this, e.getMessage());
                     return;
                 }
             }
@@ -151,18 +152,8 @@ public class AddStation extends JPanel {
             for (RouteRow row : routeRows) {
                 String selected = (String) row.toSelected();
                 int toId = Integer.parseInt(selected.split("-")[0]);
-                Station toStation = network.getStation(toId);
-                
-                // Check: station cannot have a route to itself
-                if (toStation.id == newStation.id) {
-                    JOptionPane.showMessageDialog(this, "A station cannot have a route to itself.");
-                    // Remove the station we just added since there's an error
-                    // Need a removeStation method in Network
-                    return;
-                }
-                
                 int weight = Integer.parseInt(row.getWeight());
-                newStation.addRoute(new Route(newStation, toStation, weight));
+                network.addRoute(newStation.id, toId, weight);
             }
 
             // Reset form

@@ -116,7 +116,7 @@ public class EditStation extends JPanel {
 
         // Auto-populate fields when station is selected
         stationCombo.addActionListener(e -> {
-            Station selected = network.findStationById((String) stationCombo.getSelectedItem());
+            Station selected = network.findStationById_Name((String) stationCombo.getSelectedItem());
             if (selected != null) {
                 currentStation = selected;
                 loadStationData(selected);
@@ -192,12 +192,13 @@ public class EditStation extends JPanel {
                     }
                     
                     // Create route and add to map
-                    Route route = new Route(currentStation, network.findStationById(to), weight);
+                    Route route = new Route(currentStation, network.findStationById_Name(to), weight,false);
                     updatedRoutes.put(toId, route);
                 }
                 
                 // Call modifyStation method with validated data
                 network.modifyStation(currentStation.id, newName, updatedRoutes);
+                network.checkForDous(currentStation.id);
                 clearForm();
                 JOptionPane.showMessageDialog(null, "Station updated successfully!");
                 
@@ -243,7 +244,7 @@ public class EditStation extends JPanel {
         routesPanel.removeAll();
         routeRows.clear();
         
-        for (Route route : station.getRouts().values()) {
+        for (Route route : network.getRoutesOfStation(station)) {
             RouteRow row = new RouteRow(network,routesPanel,routeRows,route.to.toString(), route.weight);
             routeRows.add(row);
             routesPanel.add(row);

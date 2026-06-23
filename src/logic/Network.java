@@ -53,15 +53,6 @@ public class Network {
 
     }
 
-
-    public HashMap<Integer, String> getStations_Name() {
-        HashMap<Integer, String> hm = new HashMap<>();
-        for (int i : stations.keySet()) {
-            hm.put(i, stations.get(i).name);
-        }
-        return hm;
-    }
-
     // ai work did not check it TODO
         public ArrayList<Route> findShortestPath(int fromi, int toi) {return null;}
     //     Station source = stations.get(fromi);
@@ -141,12 +132,12 @@ public class Network {
         if (station == null) {
             throw new IllegalArgumentException("Station with ID " + stationId + " not found");
         }
-        
+        //TODO
         // Update station name
         //station.modify(name , routes);
     }
 
-    public Station findStationById(String to) {
+    public Station findStationById_Name(String to) {
         // Extract ID from string like "1-StationName"
         int id = Integer.parseInt(to.split("-")[0]);
         return stations.get(id);
@@ -213,5 +204,15 @@ public class Network {
         visiting.remove(station);
         visited.add(station);
         return false;
+    }
+
+    public void checkForDous(int id) {
+        // TODO loop over all routes from this station and check whether they are doubled or not and fix
+        throw new UnsupportedOperationException("Unimplemented method 'checkForDous'");
+    }
+
+    public List<Route> getRoutesOfStation(Station station) {
+        // TODO the routes comming out of this station
+        throw new UnsupportedOperationException("Unimplemented method 'getRoutesOfStation'");
     }
 }

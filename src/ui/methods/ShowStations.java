@@ -124,7 +124,7 @@ public class ShowStations extends JPanel {
         panel.add(nameLabel);
         panel.add(Box.createHorizontalStrut(530));
 
-        int routeCount = station.getRouts() != null ? station.getRouts().size() : 0;
+        int routeCount = network.getRoutesOfStation(station) != null ? network.getRoutesOfStation(station).size() : 0;
         JLabel routesLabel = new JLabel("routes: " + routeCount);
         routesLabel.setFont(Manager.defaultFont(false, false));
         routesLabel.setForeground(Color.GRAY);
