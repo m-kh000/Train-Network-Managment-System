@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class Network {
     public HashMap<Integer, Station> stations = new HashMap<>();
-    private HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
+    public HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
 
     public Network(File file) {
         // TODO Auto-generated constructor stub
@@ -152,27 +152,31 @@ public class Network {
         return stations.get(id);
     }
 
-    // public void deleteStation(Station station) {
-    //     stations.remove(station.id);
+     public void deleteStation(Station station) {
+         stations.remove(station.id);
+         routes.remove(station);
         
-    //     // Also remove all routes pointing to this station from other stations
-    //     for (Station s : stations.values()) {
-    //         s.getRouts().remove(station.id);
-    //     }
-    // }
+         // Also remove all routes pointing to this station from other stations
+         for (Station s : routes.keySet()) {
+                if (routes.get(s).containsKey(station)) {
+                    routes.get(s).remove(station);
+                }
+         }
+         System.out.println(true);
+     }
 
     // Get stations sorted by number of routes (descending)
-    // public Collection<Station> getSortedStations() {
-    //     ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
+     public Collection<Station> getSortedStations() {
+         ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
         
-    //    // sortedStations.sort((s1, s2) -> {
-    //         //int routes1 = s1.getRouts() != null ? s1.getRouts().size() : 0;
-    //         //int routes2 = s2.getRouts() != null ? s2.getRouts().size() : 0;
-    //        // return Integer.compare(routes2, routes1); // Descending order
-    //     });
+         sortedStations.sort((s1, s2) -> {
+            int routes1 = routes.get(s1).size();
+            int routes2 = routes.get(s2).size();
+            return Integer.compare(routes2, routes1); // Descending order
+        });
         
-    //     return sortedStations;
-    // }
+        return sortedStations;
+    }
     
     // Get stations in natural/unsorted order (as stored in HashMap)
     public Collection<Station> getUnsortedStations() {
