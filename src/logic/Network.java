@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Network {
-    public HashMap<Integer, Station> stations = new HashMap<>();
-    public HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
+    public static HashMap<Integer, Station> stations = new HashMap<>();
+    public static HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
 
     public Network(File file) {
         // TODO Auto-generated constructor stub
@@ -20,7 +20,7 @@ public class Network {
         // TODO Auto-generated constructor stub
     }
 
-    public void addStation(Station s) {
+    public static void addStation(Station s) {
         stations.put(s.id, s);
         routes.putIfAbsent(s, new HashMap<>());
     }
@@ -33,7 +33,7 @@ public class Network {
         return stations;
     }
 
-    public void addRoute(int from, int to , int weight){
+    public static void addRoute(int from, int to , int weight){
         Station fromStation = stations.get(from);
         if (fromStation == null) 
             throw new IllegalArgumentException("Station with ID " + from + " not found");
@@ -126,17 +126,6 @@ public class Network {
         return ans;
     }
 
-    // Modify station with new name and routes
-    public void modifyStation(int stationId, String name, HashMap<Integer, Route> routes) {
-        Station station = stations.get(stationId);
-        if (station == null) {
-            throw new IllegalArgumentException("Station with ID " + stationId + " not found");
-        }
-        //TODO
-        // Update station name
-        //station.modify(name , routes);
-    }
-
     public Station findStationById_Name(String to) {
         // Extract ID from string like "1-StationName"
         int id = Integer.parseInt(to.split("-")[0]);
@@ -153,7 +142,6 @@ public class Network {
                     routes.get(s).remove(station);
                 }
          }
-         System.out.println(true);
      }
 
     // Get stations sorted by number of routes (descending)
@@ -206,13 +194,12 @@ public class Network {
         return false;
     }
 
-    public void checkForDous(int id) {
-        // TODO loop over all routes from this station and check whether they are doubled or not and fix
-        throw new UnsupportedOperationException("Unimplemented method 'checkForDous'");
-    }
-
     public List<Route> getRoutesOfStation(Station station) {
-        // TODO the routes comming out of this station
-        throw new UnsupportedOperationException("Unimplemented method 'getRoutesOfStation'");
+        List <Route> result = new ArrayList<>();
+        for (Route route : routes.get(station).values()) {
+            result.add(route);
+        }
+
+        return result;
     }
 }

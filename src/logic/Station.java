@@ -9,6 +9,11 @@ public class Station {
         this.name = name;
         this.id = counter++;
     }
+    public Station (String name , int id){
+        this.name = name;
+        this.id = id;
+        counter ++;
+    }
 
     public String toString() {
         return id+"-"+name;
