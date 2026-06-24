@@ -43,7 +43,7 @@ public class UI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Fileio.exportToFile(network);
+                Fileio.exportToFile(network,"files/recent.txt");
                 JOptionPane.showMessageDialog(null, "Data saved to recent.txt");
                 try {
                     Thread.sleep(500);
@@ -203,7 +203,7 @@ public class UI extends JFrame {
                 errorLabel.setText("Please type a new file name to export the network to");
                 return;
             }
-            Fileio.exportToFile(network,"files/"+s.split(".")[0]+LocalDate.now()+".txt");
+            Fileio.exportToFile(network,"files/"+s+LocalDate.now()+".txt");
         });
 
         // Cancel button - returns null
