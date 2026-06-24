@@ -32,6 +32,9 @@ public class App {
         //  network.addRoute(4, 3, 50);
 
          Fileio.exportToFile(Network.routes);
+         for (String string : Fileio.searchAboutTxtFiles()) {
+          System.out.println(string);  
+         }
         // network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(3), 20));
         // network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(5), 15));
         // network.getStation(2).addRoute(new Route(network.getStation(2), network.getStation(4), 30));
