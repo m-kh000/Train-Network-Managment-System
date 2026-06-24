@@ -18,14 +18,4 @@ public class Station {
     public String toString() {
         return id+"-"+name;
     }
-    // public void modify(String name , HashMap<Integer, Route> routes) {
-    //     this.name = name;
-    //     this.routes = routes;
-    // }
-    // public HashMap<Integer,Route> getRouts() {
-    //     return routes;
-    // }
-    // public Route getRoute(int id) {
-    //     return routes.get(id);
-    // }
 }

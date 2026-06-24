@@ -2,9 +2,12 @@ package logic;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Fileio {
 
@@ -70,5 +73,17 @@ public class Fileio {
         e.printStackTrace();
     }
     
+    }
+
+    public static List<String> searchAboutTxtFiles() {
+        List <String> result = new ArrayList<>();
+        File folder = new File(".");
+        File [] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) 
+                if (file.isFile() && file.getName().endsWith(".txt")) 
+                    result.add(file.getName());
+        }
+        return result;
     }
 }
