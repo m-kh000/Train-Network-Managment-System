@@ -9,6 +9,7 @@ import java.io.File;
 import java.time.LocalDate;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -112,8 +113,10 @@ public class UI extends JFrame {
         dialog.setModal(true);
         dialog.setTitle("Import File");
 
+        JLabel l = new JLabel("Select file to import:                                                                                 .   ", JLabel.LEFT);
+        l.setFont(Manager.defaultFont(false, false));
         // Error label (shows validation errors)
-        JLabel errorLabel = new JLabel("");
+        JLabel errorLabel = new JLabel(".                                                                                 .   ");
         errorLabel.setForeground(java.awt.Color.RED);
         errorLabel.setFont(Manager.hintFont());
 
@@ -123,7 +126,9 @@ public class UI extends JFrame {
         fileCombo.setFont(Manager.defaultFont(false, false));
 
         // Dropdown + error panel
-        JPanel dropdownPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        JPanel dropdownPanel = new JPanel();
+        dropdownPanel.setLayout(new BoxLayout(dropdownPanel, BoxLayout.Y_AXIS));
+        dropdownPanel.add(l);
         dropdownPanel.add(errorLabel);
         dropdownPanel.add(fileCombo);
 
@@ -159,9 +164,9 @@ public class UI extends JFrame {
         // Dialog setup
         dialog.add(mainPanel);
         dialog.setBounds(
-                Manager.SCREEN_WIDTH / 2 - 200,
-                Manager.SCREEN_HEIGHT / 2 - 120,
-                400, 240);
+                Manager.SCREEN_WIDTH / 2 - 210,
+                Manager.SCREEN_HEIGHT / 2 - 130,
+                420, 260);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
 
@@ -176,13 +181,18 @@ public class UI extends JFrame {
         dialog.setModal(true);
         dialog.setTitle("Export to File");
 
+        JLabel l = new JLabel("File name:                                                                                                                                         .      ",JLabel.LEFT);
+        l.setFont(Manager.defaultFont(false, false));
+
         // Error label (shows validation errors)
-        JLabel errorLabel = new JLabel("");
+        JLabel errorLabel = new JLabel(".                                                                                                                                         .      ",JLabel.LEFT);
         errorLabel.setForeground(java.awt.Color.RED);
         errorLabel.setFont(Manager.hintFont());
 
         JTextField tf = new JTextField();
-        JPanel dropdownPanel = new JPanel(new GridLayout(2, 1, 0, 5));
+        JPanel dropdownPanel = new JPanel();
+        dropdownPanel.setLayout(new BoxLayout(dropdownPanel, BoxLayout.Y_AXIS));
+        dropdownPanel.add(l);
         dropdownPanel.add(errorLabel);
         dropdownPanel.add(tf);
 
@@ -207,13 +217,16 @@ public class UI extends JFrame {
 
         // Main panel
         JPanel mainPanel = new JPanel(new GridLayout(2, 1, 20, 20));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 40, 40));
         mainPanel.add(dropdownPanel);
         mainPanel.add(buttonPanel);
 
         // Dialog setup
         dialog.add(mainPanel);
-        dialog.setBounds(Manager.SCREEN_WIDTH / 2 - 200, Manager.SCREEN_HEIGHT / 2 - 120, 400, 240);
+        dialog.setBounds(
+                Manager.SCREEN_WIDTH / 2 - 210,
+                Manager.SCREEN_HEIGHT / 2 - 130,
+                420, 260);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
 

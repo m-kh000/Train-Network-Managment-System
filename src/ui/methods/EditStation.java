@@ -123,6 +123,7 @@ public class EditStation extends JPanel {
                 // Enable all fields and buttons
                 setFormEnabled(true);
             } else {
+                System.out.println(" is null ");
                 // No station selected, disable form
                 currentStation = null;
                 clearForm();
