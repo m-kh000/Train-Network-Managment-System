@@ -89,12 +89,12 @@ public class RouteRow extends JPanel {
         return routeId;
     }
 
-    public Object toSelected() {
-        return toCombo.getSelectedItem();
+    public String toSelected() {
+        return (String)toCombo.getSelectedItem();
     }
 
-    public String getWeight() {
-        return weightField.getText();
+    public int getWeight() throws NumberFormatException {
+        return Integer.parseInt(weightField.getText());
     }
     
     public void setEnabled(boolean enabled) {

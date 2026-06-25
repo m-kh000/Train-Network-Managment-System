@@ -35,6 +35,8 @@ public class AddStation extends JPanel {
 
     private final JPanel routesPanel = new JPanel();
     private final List<RouteRow> routeRows = new ArrayList<>();
+    private final Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route", false);
+    private final Btn submitBtn = new Btn("", "Submit");
 
     public AddStation(Network network) {
         super(new BorderLayout());
@@ -65,8 +67,7 @@ public class AddStation extends JPanel {
         JLabel routesLabel = new JLabel("Routes:");
         routesLabel.setFont(Manager.defaultFont(true, false));
         
-        Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route",false);
-        addRouteBtn.setPreferredSize(new Dimension(140, 30));
+        //addRouteBtn.setPreferredSize(new Dimension(160, 30));
         addRouteBtn.addActionListener(e -> addRouteRow());
         
         routesHeaderPanel.add(routesLabel, BorderLayout.WEST);
@@ -83,7 +84,6 @@ public class AddStation extends JPanel {
 
         // --- Submit button row
         JPanel buttonRow = new JPanel();
-        Btn submitBtn = new Btn("","Submit");
         submitBtn.setPreferredSize(new Dimension(150, 50));
 
         // Allow Enter to trigger submit from anywhere in this panel
@@ -122,15 +122,8 @@ public class AddStation extends JPanel {
                     return;
                 }
                 
-                String weightText = row.getWeight();
-                if (weightText.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter a weight for all routes.");
-                    return;
-                }
-                
-                // Validate weight is a number
                 try {
-                    int weight = Integer.parseInt(weightText);
+                    int weight = row.getWeight();
                     if (weight <= 0) {
                         JOptionPane.showMessageDialog(this, "Route weight must be a positive number.");
                         return;
@@ -138,7 +131,7 @@ public class AddStation extends JPanel {
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Please enter a valid weight.");
                     return;
-                }catch (Exception e){
+                } catch (Exception e){
                     JOptionPane.showMessageDialog(this, e.getMessage());
                     return;
                 }
@@ -147,12 +140,11 @@ public class AddStation extends JPanel {
             // Create station
             Station newStation = new Station(stationName);
             network.addStation(newStation);
-
             // Add all routes
             for (RouteRow row : routeRows) {
                 String selected = (String) row.toSelected();
                 int toId = Integer.parseInt(selected.split("-")[0]);
-                int weight = Integer.parseInt(row.getWeight());
+                int weight = row.getWeight();
                 network.addRoute(newStation.id, toId, weight);
             }
 

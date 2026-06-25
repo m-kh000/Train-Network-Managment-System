@@ -17,7 +17,7 @@ public class Fileio {
     }
     
     public static void exportToFile(HashMap  <Station , HashMap<Station , Route>> routes) {
-        exportToFile(routes, "data.txt");
+        exportToFile(routes, "files/data.txt");
     }
 
     public static void exportToFile(HashMap <Station , HashMap<Station , Route>> routes, String filePath){
@@ -36,7 +36,7 @@ public class Fileio {
     }
 
     public static void importFromFile() {
-        importFromFile("data.txt");
+        importFromFile("files/data.txt");
     }
 
     public static void importFromFile(String filePath){
@@ -75,9 +75,9 @@ public class Fileio {
     
     }
 
-    public static List<String> searchAboutTxtFiles() {
+    public static List<String> TxtFiles() {
         List <String> result = new ArrayList<>();
-        File folder = new File(".");
+        File folder = new File("./files");
         File [] files = folder.listFiles();
         if (files != null) {
             for (File file : files) 

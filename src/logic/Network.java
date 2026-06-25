@@ -12,8 +12,8 @@ public class Network {
     public static HashMap<Integer, Station> stations = new HashMap<>();
     public static HashMap <Station , HashMap<Station , Route>> routes = new HashMap<>();
 
-    public Network(File file) {
-        // TODO Auto-generated constructor stub
+    public Network(String filepath) {
+        Fileio.importFromFile(filepath);
     }
 
     public Network() {
@@ -53,76 +53,17 @@ public class Network {
 
     }
 
-    // ai work did not check it TODO
-        public ArrayList<Route> findShortestPath(int fromi, int toi) {return null;}
-    //     Station source = stations.get(fromi);
-    //     Station target = stations.get(toi);
-    //     if (source == null || target == null || source == target) {
-    //         return new ArrayList<>();
-    //     }
-
-    //     Map<Station, Integer> dist = new HashMap<>();
-    //     Map<Station, Route> previous = new HashMap<>();
-    //     Set<Station> visited = new HashSet<>();
-    //     PriorityQueue<Node> queue = new PriorityQueue<>((a, b) -> Integer.compare(a.distance, b.distance));
-
-    //     for (Station station : stations.values()) {
-    //         dist.put(station, Integer.MAX_VALUE);
-    //     }
-
-    //     dist.put(source, 0);
-    //     queue.add(new Node(source, 0));
-
-    //     while (!queue.isEmpty()) {
-    //         Node node = queue.poll();
-    //         Station current = node.station;
-
-    //         if (visited.contains(current)) {
-    //             continue;
-    //         }
-    //         visited.add(current);
-
-    //         if (current == target) {
-    //             break;
-    //         }
-
-    //         for (Route route : current.getRouts().values()) {
-    //             Station neighbor = route.to;
-    //             int tentative = dist.get(current) + route.weight;
-    //             if (tentative < dist.getOrDefault(neighbor, Integer.MAX_VALUE)) {
-    //                 dist.put(neighbor, tentative);
-    //                 previous.put(neighbor, route);
-    //                 queue.add(new Node(neighbor, tentative));
-    //             }
-    //         }
-    //     }
-
-    //     if (!previous.containsKey(target) && source != target) {
-    //         return new ArrayList<>();
-    //     }
-
-    //     ArrayList<Route> path = new ArrayList<>();
-    //     Station current = target;
-    //     while (current != null && current != source) {
-    //         Route route = previous.get(current);
-    //         if (route == null) {
-    //             break;
-    //         }
-    //         path.add(0, route);
-    //         current = route.from;
-    //     }
-
-    //     return path;
-    // }
-
+    // TODO
+        public int findShortestPath(int from, int to, ArrayList<Route> finalpath) {return 0;}
    
     public String[] getStationsID_Name() {
         String ans[] = new String[stations.size()];
+        try{
         int i = 0;
         for (Station s : stations.values()) {
             ans[i] = s.toString();
             i++;
-        }
+        }}catch(Exception e){System.out.println("found itttttt");}
         return ans;
     }
 
@@ -202,4 +143,9 @@ public class Network {
 
         return result;
     }
+
+    public void deleteallRoutesOfStation(Station station) {
+        routes.put(station, new HashMap<Station,Route>());
+    }
+
 }

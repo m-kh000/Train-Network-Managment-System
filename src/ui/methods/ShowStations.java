@@ -1,18 +1,28 @@
 package ui.methods;
 
-import javax.swing.*;
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JToggleButton;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.util.Collection;
 
 import logic.Network;
 import logic.Station;
 import ui.Manager;
 
 public class ShowStations extends JPanel {
-    
+
+    private final Network network;
     private JPanel stationsPanel;
-    private Network network;
     private JToggleButton sortToggle;
     private boolean sortByRoutes = false;
     private Collection<Station> unsorted, sorted;
@@ -23,15 +33,11 @@ public class ShowStations extends JPanel {
         sorted = network.getSortedStations();
 
         setLayout(new BorderLayout());
-
-        // Side panels
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SMALL, Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SMALL));
 
-        // Components
         JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-        main.add(Manager.topPanel("Privew Stations", network));
-
+        main.add(Manager.topPanel("Preview Stations", network));
         main.add(Box.createVerticalStrut(20));
 
         // Sort toggle panel
@@ -65,7 +71,7 @@ public class ShowStations extends JPanel {
         stationsPanel.setBorder(BorderFactory.createTitledBorder("Stations List"));
         
         JScrollPane scrollPane = new JScrollPane(stationsPanel);
-        // scrollPane.setPreferredSize(new Dimension(600, 400));
+        scrollPane.setPreferredSize(new Dimension(600, 550));
         scrollPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         main.add(scrollPane);
         

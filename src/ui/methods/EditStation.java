@@ -12,16 +12,16 @@ import logic.*;
 
 public class EditStation extends JPanel {
 
-    private Network network;
-    private JComboBox<String> stationCombo;
-    private JTextField nameField = new JTextField();
-    private JPanel routesPanel= new JPanel();
-    private Btn addRouteBtn;
-    private Btn submitBtn;
-    private Btn discardBtn;
-    private Btn deleteStationBtn;
-    private java.util.List<RouteRow> routeRows = new java.util.ArrayList<>();
-    private Station currentStation;
+    private final Network network;
+    private final JComboBox<String> stationCombo = new JComboBox<>();
+    private final JTextField nameField = new JTextField();
+    private final JPanel routesPanel = new JPanel();
+    private final Btn addRouteBtn;
+    private final Btn submitBtn;
+    private final Btn discardBtn;
+    private final Btn deleteStationBtn;
+    private final java.util.List<RouteRow> routeRows = new java.util.ArrayList<>();
+    private Station currentStation = null;
     
     public EditStation(Network network) {
         this.network = network;
@@ -42,9 +42,8 @@ public class EditStation extends JPanel {
         JLabel selectLabel = new JLabel("Select Station:");
         selectLabel.setFont(Manager.defaultFont(true, false));
         selectLabel.setPreferredSize(new Dimension(150, 30));
-        stationCombo = new JComboBox<>(network.getStationsID_Name());
-        stationCombo.setSelectedItem(null);
         stationCombo.setFont(Manager.defaultFont(false, false));
+        fillStationComboBox();
         
         selectPanel.add(selectLabel, BorderLayout.WEST);
         selectPanel.add(stationCombo, BorderLayout.CENTER);
@@ -109,25 +108,22 @@ public class EditStation extends JPanel {
 
         add(main, BorderLayout.CENTER);
 
-        // Initially disable form (no station selected)
-        setFormEnabled(false);
+        clearForm();
         
         // ==================== Listeners ====================
 
         // Auto-populate fields when station is selected
         stationCombo.addActionListener(e -> {
-            Station selected = network.findStationById_Name((String) stationCombo.getSelectedItem());
+            String name = (String) stationCombo.getSelectedItem();
+            if(name == null) return;
+            Station selected = network.findStationById_Name(name);
             if (selected != null) {
                 currentStation = selected;
                 loadStationData(selected);
                 // Enable all fields and buttons
                 setFormEnabled(true);
             } else {
-                System.out.println(" is null ");
-                // No station selected, disable form
-                currentStation = null;
                 clearForm();
-                setFormEnabled(false);
             }
         });
 
@@ -163,48 +159,35 @@ public class EditStation extends JPanel {
                         JOptionPane.showMessageDialog(null, "Please select a destination station for all routes.");
                         return;
                     }
-                    
-                    String to = (String) row.toSelected();
-                    String weightText = row.getWeight();
-                    
-                    if (weightText.isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Please enter a weight for all routes.");
-                        return;
-                    }
-                    
-                    // Validate weight is a number
-                    int weight;
-                    try {
-                        weight = Integer.parseInt(weightText);
+                    String to = row.toSelected();
+                    int weight = row.getWeight();
                         if (weight <= 0) {
                             JOptionPane.showMessageDialog(null, "Route weight must be a positive number.");
                             return;
                         }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Route weight must be a valid number.");
-                        return;
-                    }
                     
                     int toId = Integer.parseInt(to.split("-")[0]);
-                    // Check: station cannot have a route to itself
                     if (toId == currentStation.id) {
                         JOptionPane.showMessageDialog(null, "A station cannot have a route to itself.");
                         return;
                     }
-                    
                     // Create route and add to map
                     Route route = new Route(currentStation, network.findStationById_Name(to), weight,false);
                     updatedRoutes.put(toId, route);
                 }
+                currentStation.setName(newName);
+                network.deleteallRoutesOfStation(currentStation);
                 
-                // Call modifyStation method with validated data
-                network.modifyStation(currentStation.id, newName, updatedRoutes);
-                network.checkForDous(currentStation.id);
+                for(Route route : updatedRoutes.values()){
+                    Network.addRoute(route.from.id,route.to.id,route.weight);
+                }
                 clearForm();
                 JOptionPane.showMessageDialog(null, "Station updated successfully!");
                 
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter valid weights for routes");
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Error: 404 " + ex.getMessage());
             }
         });
 
@@ -233,7 +216,6 @@ public class EditStation extends JPanel {
                 network.deleteStation(currentStation);
                 clearForm();
                 JOptionPane.showMessageDialog(null, "Station deleted successfully.");
-                stationCombo.removeItem(currentStation);
             }
         });
     }
@@ -270,8 +252,16 @@ public class EditStation extends JPanel {
         routesPanel.revalidate();
         routesPanel.repaint();
         currentStation = null;
-        stationCombo.setSelectedItem(null);
+        fillStationComboBox();
         setFormEnabled(false);
+    }
+
+    private void fillStationComboBox() {
+        stationCombo.removeAllItems();
+        for (String item : network.getStationsID_Name()) {
+            stationCombo.addItem(item);
+        }
+        stationCombo.setSelectedIndex(-1);
     }
 
     // Enable/disable form fields based on station selection

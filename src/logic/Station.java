@@ -16,6 +16,9 @@ public class Station {
     }
 
     public String toString() {
-        return id+"-"+name;
+        return id+"-  "+name;
+    }
+    public void setName(String newName) {
+        name = newName;
     }
 }

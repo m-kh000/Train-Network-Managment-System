@@ -1,11 +1,14 @@
 package ui.methods;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.ArrayList;
 
-import logic.*;
+import logic.Network;
+import logic.Route;
 import ui.Manager;
 
 public class ShowMap extends JPanel {
@@ -24,25 +27,24 @@ public class ShowMap extends JPanel {
 
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(30, 90, 20, 90));
-        
+
         map = new JPanel(new BorderLayout());
         sideShortest = new JPanel(new BorderLayout());
 
         map.setBorder(BorderFactory.createLineBorder(ROAD, 1));
-        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, null));
         sideShortest.setBorder(BorderFactory.createLineBorder(ROAD, 1));
-        sideShortest.add(new Shortest(network, this,SHORT_ROUTE));
+
+        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, null), BorderLayout.CENTER);
+        sideShortest.add(new Shortest(network, this, SHORT_ROUTE), BorderLayout.CENTER);
 
         add(Manager.topPanel("Map", network), BorderLayout.NORTH);
         add(map, BorderLayout.WEST);
         add(sideShortest, BorderLayout.EAST);
-
     }
 
     public void updateShortestPath(ArrayList<Route> shortest) {
-        System.out.println("updating");
         map.removeAll();
-        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS,shortest));
+        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, shortest), BorderLayout.CENTER);
         revalidate();
         repaint();
     }

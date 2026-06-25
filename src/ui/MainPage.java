@@ -69,7 +69,7 @@ public Network network;
         // Row5 import from file | Export to file
         JPanel row5 = new JPanel(new GridLayout(1, 2, 10, 10));
         Btn btnImport = new Btn(Manager.EDIT_PATH, "Import File");
-        btnImport.addActionListener(e -> UI.changeNetwork(network));
+        btnImport.addActionListener(e -> UI.changeNetwork());
         Btn btnExport = new Btn(Manager.EDIT_PATH, "Export To File");
         btnExport.addActionListener(e -> UI.typeFileNameToExport(network));
         row5.add(btnImport);

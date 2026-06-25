@@ -32,7 +32,7 @@ public class App {
         //  network.addRoute(4, 3, 50);
 
          Fileio.exportToFile(Network.routes);
-         for (String string : Fileio.searchAboutTxtFiles()) {
+         for (String string : Fileio.TxtFiles()) {
           System.out.println(string);  
          }
         // network.getStation(1).addRoute(new Route(network.getStation(1), network.getStation(3), 20));
@@ -45,6 +45,6 @@ public class App {
         // network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
         // network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        //new UI(network);
+        new UI(network);
             }
 }
