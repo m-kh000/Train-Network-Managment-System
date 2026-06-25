@@ -100,7 +100,7 @@ public class UI extends JFrame {
         dialog.setModal(true);
         dialog.setTitle("Import File");
 
-        JLabel label = new JLabel("Select file to import:", JLabel.LEFT);
+        JLabel label = new JLabel("Select file to import:                                                       .", JLabel.LEFT);
         label.setFont(Manager.defaultFont(false, false));
 
         JLabel errorLabel = new JLabel(" ");
@@ -123,7 +123,7 @@ public class UI extends JFrame {
                 result[0] = fileCombo.getSelectedItem().toString();
                 dialog.dispose();
             } else {
-                errorLabel.setText("Please select a file");
+                errorLabel.setText("Please select a file                                               .");
             }
         });
 
