@@ -12,7 +12,6 @@ import logic.*;
 
 public class EditStation extends JPanel {
 
-    private final Network network;
     private final JComboBox<String> stationCombo = new JComboBox<>();
     private final JTextField nameField = new JTextField();
     private final JPanel routesPanel = new JPanel();
@@ -21,10 +20,10 @@ public class EditStation extends JPanel {
     private final Btn discardBtn;
     private final Btn deleteStationBtn;
     private final java.util.List<RouteRow> routeRows = new java.util.ArrayList<>();
+    private boolean isUpdatingForm = false;
     private Station currentStation = null;
     
-    public EditStation(Network network) {
-        this.network = network;
+    public EditStation() {
         
         setLayout(new BorderLayout());
 
@@ -34,7 +33,7 @@ public class EditStation extends JPanel {
         // Components
         JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-        main.add(Manager.topPanel("Edit Station", network));
+        main.add(Manager.topPanel("Edit Station"));
 
         // Select station panel
         JPanel selectPanel = new JPanel();
@@ -109,14 +108,16 @@ public class EditStation extends JPanel {
         add(main, BorderLayout.CENTER);
 
         clearForm();
+        setFormEnabled(false);
         
         // ==================== Listeners ====================
 
         // Auto-populate fields when station is selected
         stationCombo.addActionListener(e -> {
+            if (isUpdatingForm) return;
             String name = (String) stationCombo.getSelectedItem();
-            if(name == null) return;
-            Station selected = network.findStationById_Name(name);
+            if (name == null) return;
+            Station selected = Network.findStationById_Name(name);
             if (selected != null) {
                 currentStation = selected;
                 loadStationData(selected);
@@ -124,6 +125,7 @@ public class EditStation extends JPanel {
                 setFormEnabled(true);
             } else {
                 clearForm();
+                setFormEnabled(false);
             }
         });
 
@@ -172,16 +174,17 @@ public class EditStation extends JPanel {
                         return;
                     }
                     // Create route and add to map
-                    Route route = new Route(currentStation, network.findStationById_Name(to), weight,false);
+                    Route route = new Route(currentStation, Network.findStationById_Name(to), weight,false);
                     updatedRoutes.put(toId, route);
                 }
                 currentStation.setName(newName);
-                network.deleteallRoutesOfStation(currentStation);
+                Network.deleteallRoutesOfStation(currentStation);
                 
-                for(Route route : updatedRoutes.values()){
+                for (Route route : updatedRoutes.values()) {
                     Network.addRoute(route.from.id,route.to.id,route.weight);
                 }
                 clearForm();
+                setFormEnabled(false);
                 JOptionPane.showMessageDialog(null, "Station updated successfully!");
                 
             } catch (NumberFormatException ex) {
@@ -213,8 +216,9 @@ public class EditStation extends JPanel {
                 "Confirm Delete", JOptionPane.YES_NO_OPTION);
                 
             if (confirm == JOptionPane.YES_OPTION) {
-                network.deleteStation(currentStation);
+                Network.deleteStation(currentStation);
                 clearForm();
+                setFormEnabled(false);
                 JOptionPane.showMessageDialog(null, "Station deleted successfully.");
             }
         });
@@ -227,8 +231,8 @@ public class EditStation extends JPanel {
         routesPanel.removeAll();
         routeRows.clear();
         
-        for (Route route : network.getRoutesOfStation(station)) {
-            RouteRow row = new RouteRow(network,routesPanel,routeRows,route.to.toString(), route.weight);
+        for (Route route : Network.getRoutesOfStation(station)) {
+            RouteRow row = new RouteRow(routesPanel, routeRows, route.to.toString(), route.weight);
             routeRows.add(row);
             routesPanel.add(row);
         }
@@ -238,7 +242,7 @@ public class EditStation extends JPanel {
     }
 
     private void addRouteRow() {
-        RouteRow row = new RouteRow(network,routesPanel,routeRows);
+        RouteRow row = new RouteRow(routesPanel, routeRows);
         routeRows.add(row);
         routesPanel.add(row);
         routesPanel.revalidate();
@@ -246,19 +250,22 @@ public class EditStation extends JPanel {
     }
 
     private void clearForm() {
+        isUpdatingForm = true;
+        currentStation = null;
         nameField.setText("");
         routesPanel.removeAll();
         routeRows.clear();
         routesPanel.revalidate();
         routesPanel.repaint();
-        currentStation = null;
         fillStationComboBox();
-        setFormEnabled(false);
+        stationCombo.setSelectedIndex(-1);
+        stationCombo.setSelectedItem(null);
+        isUpdatingForm = false;
     }
 
     private void fillStationComboBox() {
         stationCombo.removeAllItems();
-        for (String item : network.getStationsID_Name()) {
+        for (String item : Network.getStationsID_Name()) {
             stationCombo.addItem(item);
         }
         stationCombo.setSelectedIndex(-1);

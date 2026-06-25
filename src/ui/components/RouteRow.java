@@ -25,14 +25,12 @@ public class RouteRow extends JPanel {
     Btn deleteBtn;
     Integer routeId; // null for new routes
     boolean isExistingRoute;
-    Network network;
 
-    public RouteRow(Network n, JPanel routesPanel, List<RouteRow> routeRows) {
-        this(n, routesPanel, routeRows, null, 0);
+    public RouteRow(JPanel routesPanel, List<RouteRow> routeRows) {
+        this(routesPanel, routeRows, null, 0);
     }
 
-    public RouteRow(Network n, JPanel routesPanel, List<RouteRow> routeRows, String to, int weight) {
-        this.network = n;
+    public RouteRow(JPanel routesPanel, List<RouteRow> routeRows, String to, int weight) {
         this.isExistingRoute = (to != null);
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
@@ -45,7 +43,7 @@ public class RouteRow extends JPanel {
         add(toLabel);
         add(Box.createHorizontalStrut(10));
 
-        toCombo = new JComboBox<>(network.getStationsID_Name());
+        toCombo = new JComboBox<>(Network.getStationsID_Name());
         toCombo.setPreferredSize(new Dimension(120, 45));
         toCombo.setFont(Manager.defaultFont(false, false));
         toCombo.setSelectedItem(to);

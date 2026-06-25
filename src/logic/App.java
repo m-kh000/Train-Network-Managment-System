@@ -1,13 +1,10 @@
 package logic;
 
-import java.util.HashMap;
-
 import ui.UI;
 
 public class App {
 
     public static void main(String[] args) throws Exception {
-        Network network = new Network();
         
         // network.addStation(new Station("A"));
         // network.addStation(new Station("B"));
@@ -31,7 +28,7 @@ public class App {
         //  network.addRoute(4, 2, 50);
         //  network.addRoute(4, 3, 50);
 
-         Fileio.exportToFile(Network.routes);
+         Fileio.exportToFile();
          for (String string : Fileio.TxtFiles()) {
           System.out.println(string);  
          }
@@ -45,6 +42,6 @@ public class App {
         // network.getStation(5).addRoute(new Route(network.getStation(5), network.getStation(6), 18));
         // network.getStation(6).addRoute(new Route(network.getStation(6), network.getStation(5), 28));
 
-        new UI(network);
+        new UI();
             }
 }

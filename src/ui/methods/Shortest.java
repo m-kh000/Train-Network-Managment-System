@@ -27,18 +27,16 @@ public class Shortest extends JPanel {
     private final JComboBox<String> from;
     private final JComboBox<String> to;
 
-    private final Network network;
     private final ShowMap parent;
     private ArrayList<Route> shortest = new ArrayList<>();
     private final String[] names;
     private final Color shortestRoadColor;
     private int dis = -1;
 
-    public Shortest(Network network, ShowMap parent, Color shortestRoadColor) {
-        this.network = network;
+    public Shortest(ShowMap parent, Color shortestRoadColor) {
         this.parent = parent;
         this.shortestRoadColor = shortestRoadColor;
-        this.names = network.getStationsID_Name();
+        this.names = Network.getStationsID_Name();
 
         from = new JComboBox<>(names);
         to = new JComboBox<>(names);
@@ -118,7 +116,7 @@ public class Shortest extends JPanel {
             return;
         }
 
-        dis = network.findShortestPath(fromId, toId, shortest);
+        dis = Network.findShortestPath(fromId, toId, shortest);
         if (shortest == null || shortest.isEmpty()) {
             ans.setForeground(Color.RED);
             ans.setText("No path found!");
@@ -132,7 +130,7 @@ public class Shortest extends JPanel {
     }
 
     private void updateCycleLabel() {
-        cycleLabel.setText("Graph has cycle: " + (network.hasCycle() ? "Yes" : "No"));
+        cycleLabel.setText("Graph has cycle: " + (Network.hasCycle() ? "Yes" : "No"));
     }
 }
 

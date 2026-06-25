@@ -48,7 +48,6 @@ public class RouteComponent {
         shx = fx + shv;
         shy = fy + shv;
 
-        System.out.println("i drew the line from " + from + " to " + to);
         g.drawLine(shx, shy, shbx, shby);
         g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang - theta) * w), (int) (shby - Math.sin(ang - theta) * w));
         g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang + theta) * w), (int) (shby - Math.sin(ang + theta) * w));

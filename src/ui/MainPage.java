@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import logic.Network;
 import ui.Manager.Btn;
 import ui.methods.AddRoute;
 import ui.methods.AddStation;
@@ -18,9 +17,7 @@ import ui.methods.ShowMap;
 import ui.methods.ShowStations;
 
 public class MainPage extends JPanel {
-public Network network;
-    public MainPage(Network network) {
-        this.network = network;
+    public MainPage() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE,Manager.TP_PADDING_SIZE,Manager.SIDE_PADDING_SIZE));
 
@@ -38,31 +35,31 @@ public Network network;
 
         // Center panel
         JPanel centerPanel = new JPanel(new GridLayout(5, 1, 0, Manager.ROW_SPACING));
-        // centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE/2, 0,0,0));
 
         // Row 1: Our Stations
         Btn btnStations = new Btn(Manager.STATION_PATH, "Our Stations");
         centerPanel.add(btnStations);
-        btnStations.addActionListener(e -> UI.switchContent(new ShowStations(network)));
+        btnStations.addActionListener(e -> UI.switchContent(new ShowStations()));
 
         // Row 2: Show Map
         Btn btnMap = new Btn(Manager.MAP_PATH, "Show Map");
         centerPanel.add(btnMap);
-        btnMap.addActionListener(e -> UI.switchContent(new ShowMap(network)));
+        btnMap.addActionListener(e -> UI.switchContent(new ShowMap()));
 
         // Row 3: Add Station | Add Route
         JPanel row3 = new JPanel(new GridLayout(1, 2, 10, 10));
         Btn btnAddStation = new Btn(Manager.ADD_PATH, "Add Station");
-        btnAddStation.addActionListener(e -> UI.switchContent(new AddStation(network)));
+        btnAddStation.addActionListener(e -> UI.switchContent(new AddStation()));
         Btn btnAddRoute = new Btn(Manager.ADD_PATH, "Add Route");
-        btnAddRoute.addActionListener(e -> UI.switchContent(new AddRoute(network)));
+        btnAddRoute.addActionListener(e -> UI.switchContent(new AddRoute()));
         row3.add(btnAddStation);
         row3.add(btnAddRoute);
         centerPanel.add(row3);
 
         // Row 4: Edit Stations and routes
         Btn btnEditStation = new Btn(Manager.EDIT_PATH, "Edit Stations and Routes");
-        btnEditStation.addActionListener(e -> UI.switchContent(new EditStation(network)));
+        btnEditStation.addActionListener(e -> UI.switchContent(new EditStation()));
         centerPanel.add(btnEditStation);
 
 
@@ -71,7 +68,7 @@ public Network network;
         Btn btnImport = new Btn(Manager.EDIT_PATH, "Import File");
         btnImport.addActionListener(e -> UI.changeNetwork());
         Btn btnExport = new Btn(Manager.EDIT_PATH, "Export To File");
-        btnExport.addActionListener(e -> UI.typeFileNameToExport(network));
+        btnExport.addActionListener(e -> UI.typeFileNameToExport());
         row5.add(btnImport);
         row5.add(btnExport);
         centerPanel.add(row5);

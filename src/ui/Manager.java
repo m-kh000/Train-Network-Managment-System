@@ -115,16 +115,15 @@ public class Manager {
 
     }
 
-    public static JPanel topPanel(String string, Network network) {
+    public static JPanel topPanel(String string) {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 30, 0));
         JLabel title = new JLabel(string + "      ", JLabel.CENTER);
         title.setFont(defaultFont(true, true));
         panel.setPreferredSize(new Dimension(60, 60));
-        panel.add(UI.backBtn(network), BorderLayout.WEST);
+        panel.add(UI.backBtn(), BorderLayout.WEST);
         panel.add(title, BorderLayout.CENTER);
-        // panel.add(Box.createVerticalStrut(20));
         return panel;
     }
 }

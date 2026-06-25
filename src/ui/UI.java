@@ -20,16 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import logic.Fileio;
-import logic.Network;
 import ui.Manager.Btn;
 
 public class UI extends JFrame {
 
     private static JPanel centerPanel;
-    private static Network currentNetwork;
 
-    public UI(Network network) {
-        currentNetwork = network;
+    public UI() {
         initializeFrame();
         initializeContent();
     }
@@ -44,7 +41,7 @@ public class UI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                //TODO Fileio.exportToFile(currentNetwork, "files/recent.txt");
+                Fileio.exportToFile("files/recent.txt");
                 JOptionPane.showMessageDialog(null, "Data saved to recent.txt");
                 try {
                     Thread.sleep(500);
@@ -62,7 +59,7 @@ public class UI extends JFrame {
 
     private void initializeContent() {
         centerPanel = new JPanel(new BorderLayout());
-        centerPanel.add(new MainPage(currentNetwork), BorderLayout.CENTER);
+        centerPanel.add(new MainPage(), BorderLayout.CENTER);
         add(centerPanel, BorderLayout.CENTER);
         setVisible(true);
     }
@@ -74,28 +71,20 @@ public class UI extends JFrame {
         centerPanel.repaint();
     }
 
-    public static JButton backBtn(Network network) {
+    public static JButton backBtn() {
         Btn backButton = new Btn("public/back.png");
         backButton.setBackground(Manager.defaultBGColor());
         backButton.setPreferredSize(new Dimension(60, 60));
-        backButton.addActionListener(e -> switchContent(new MainPage(network)));
+        backButton.addActionListener(e -> switchContent(new MainPage()));
         return backButton;
     }
 
     public static void changeNetwork() {
-        Network newNetwork = findFileToImport();
-        if (newNetwork != null) {
-            currentNetwork = newNetwork;
-            switchContent(new MainPage(currentNetwork));
-        }
-    }
-
-    public static Network findFileToImport() {
         String filename = showFileChooser();
         if (filename != null && !filename.isEmpty()) {
-            return new Network("/files/" + filename);
+            Fileio.importFromFile("files/" + filename);
+            switchContent(new MainPage());
         }
-        return null;
     }
 
     private static String showFileChooser() {
@@ -164,7 +153,7 @@ public class UI extends JFrame {
         return result[0];
     }
 
-    public static void typeFileNameToExport(Network network) {
+    public static void typeFileNameToExport() {
         JDialog dialog = new JDialog();
         dialog.setModal(true);
         dialog.setTitle("Export to File");
@@ -190,7 +179,9 @@ public class UI extends JFrame {
                 errorLabel.setText("Please type a new file name to export the network to");
                 return;
             }
-            //TODO Fileio.exportToFile(network, "files/" + s + LocalDate.now() + ".txt");
+            Fileio.exportToFile("files/" + s + LocalDate.now() + ".txt");
+            JOptionPane.showMessageDialog(null, "Data exported successfully to " + s + LocalDate.now() + ".txt");
+            dialog.dispose();
         });
 
         Btn cancelBtn = new Btn("", "Cancel");

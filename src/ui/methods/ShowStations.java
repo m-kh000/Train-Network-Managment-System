@@ -21,23 +21,21 @@ import ui.Manager;
 
 public class ShowStations extends JPanel {
 
-    private final Network network;
     private JPanel stationsPanel;
     private JToggleButton sortToggle;
     private boolean sortByRoutes = false;
     private Collection<Station> unsorted, sorted;
     
-    public ShowStations(Network network) {
-        this.network = network;
-        unsorted = network.getStations().values();
-        sorted = network.getSortedStations();
+    public ShowStations() {
+        unsorted = Network.getStations().values();
+        sorted = Network.getSortedStations();
 
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SMALL, Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SMALL));
 
         JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
-        main.add(Manager.topPanel("Preview Stations", network));
+        main.add(Manager.topPanel("Preview Stations"));
         main.add(Box.createVerticalStrut(20));
 
         // Sort toggle panel
@@ -130,7 +128,7 @@ public class ShowStations extends JPanel {
         panel.add(nameLabel);
         panel.add(Box.createHorizontalStrut(530));
 
-        int routeCount = network.getRoutesOfStation(station) != null ? network.getRoutesOfStation(station).size() : 0;
+        int routeCount = Network.getRoutesOfStation(station) != null ? Network.getRoutesOfStation(station).size() : 0;
         JLabel routesLabel = new JLabel("routes: " + routeCount);
         routesLabel.setFont(Manager.defaultFont(false, false));
         routesLabel.setForeground(Color.GRAY);

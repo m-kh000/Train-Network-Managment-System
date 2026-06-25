@@ -4,49 +4,59 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class Fileio {
-
-    public static String[] filesNames() {
-        // TODO 
-        return new String[]{"a","b"};
-    }
     
-    public static void exportToFile(HashMap  <Station , HashMap<Station , Route>> routes) {
-        exportToFile(routes, "files/data.txt");
+    public static void exportToFile() {
+        exportToFile("files/recent.txt");
     }
 
-    public static void exportToFile(HashMap <Station , HashMap<Station , Route>> routes, String filePath){
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))){
-            for (Station station : routes.keySet()) {
-                writer.write(station.id+"-" + station.name + "-> ");
-                for (Station station2 : routes.get(station).keySet()) {
-                    writer.write( station2.id+ "-" + station2.name + "(" + routes.get(station).get(station2).weight + ") , ");
-                    
+    public static void exportToFile(String filePath) {
+        Path targetPath = Path.of(filePath + LocalDate.now());
+        try {
+            Path parent = targetPath.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter writer = Files.newBufferedWriter(targetPath)) {
+            for (Station station : Network.routes.keySet()) {
+                writer.write(station.id + "-" + station.name + "-> ");
+                for (Station station2 : Network.routes.get(station).keySet()) {
+                    Route route = Network.routes.get(station).get(station2);
+                    writer.write(station2.id + "-" + station2.name + "(" + route.weight + ") , ");
                 }
                 writer.newLine();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void importFromFile() {
-        importFromFile("files/data.txt");
+        importFromFile("files/recent.txt");
     }
 
     public static void importFromFile(String filePath){
     try(BufferedReader reader = new BufferedReader(new FileReader(filePath));) {
+        Network.resetNetwork();
         String line ;
         while ((line = reader.readLine()) != null) {
             String [] parts = line.split("-> ");
             String []source = parts[0].split("-");
             Network.addStation(new Station(source[1], Integer.parseInt(source[0])));
-            
         }
 
     } catch (Exception e) {
@@ -55,24 +65,23 @@ public class Fileio {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
         String line ;
         while ((line = reader.readLine()) != null) {
-            System.out.println(true);
             String [] parts = line.split("-> ");
-            String [] r =parts[1].split(" , ");
+            if (parts.length < 2) continue;
+            String [] r = parts[1].split(" , ");
             String sourceid = parts[0].split("-")[0];
             for (String string : r) {
-                  String desid = string.split("-")[0];
-                  String wieght = string.split("\\(")[1];
-                  wieght= wieght.substring(0, wieght.length()-1);
-                  System.out.println(wieght);
-                  Network.addRoute(Integer.parseInt(sourceid), Integer.parseInt(desid), Integer.parseInt(wieght));
+                if (string == null || string.trim().isEmpty() || !string.trim().contains("(") || !string.trim().contains(")"))
+                    break;
+                String desid = string.split("-")[0].trim();
+                String wieght = string.split("\\(")[1];
+                wieght = wieght.split("\\)")[0];
+                Network.addRoute(Integer.parseInt(sourceid), Integer.parseInt(desid), Integer.parseInt(wieght));
             }
-          
         }
 
     } catch (Exception e) {
-        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error: sth wen wrong " + e.getMessage());
     }
-    
     }
 
     public static List<String> TxtFiles() {

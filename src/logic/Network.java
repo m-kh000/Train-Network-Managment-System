@@ -16,20 +16,16 @@ public class Network {
         Fileio.importFromFile(filepath);
     }
 
-    public Network() {
-        // TODO Auto-generated constructor stub
-    }
-
     public static void addStation(Station s) {
         stations.put(s.id, s);
         routes.putIfAbsent(s, new HashMap<>());
     }
 
-    public Station getStation(int id) {
+    public static Station getStation(int id) {
         return stations.get(id);
     }
 
-    public HashMap<Integer, Station> getStations() {
+    public static HashMap<Integer, Station> getStations() {
         return stations;
     }
 
@@ -54,9 +50,9 @@ public class Network {
     }
 
     // TODO
-        public int findShortestPath(int from, int to, ArrayList<Route> finalpath) {return 0;}
+        public static int findShortestPath(int from, int to, ArrayList<Route> finalpath) {return 0;}
    
-    public String[] getStationsID_Name() {
+    public static String[] getStationsID_Name() {
         String ans[] = new String[stations.size()];
         try{
         int i = 0;
@@ -67,13 +63,13 @@ public class Network {
         return ans;
     }
 
-    public Station findStationById_Name(String to) {
+    public static Station findStationById_Name(String to) {
         // Extract ID from string like "1-StationName"
         int id = Integer.parseInt(to.split("-")[0]);
         return stations.get(id);
     }
 
-     public void deleteStation(Station station) {
+     public static void deleteStation(Station station) {
          stations.remove(station.id);
          routes.remove(station);
         
@@ -86,7 +82,7 @@ public class Network {
      }
 
     // Get stations sorted by number of routes (descending)
-     public Collection<Station> getSortedStations() {
+     public static Collection<Station> getSortedStations() {
          ArrayList<Station> sortedStations = new ArrayList<>(stations.values());
         
          sortedStations.sort((s1, s2) -> {
@@ -99,11 +95,11 @@ public class Network {
     }
     
     // Get stations in natural/unsorted order (as stored in HashMap)
-    public Collection<Station> getUnsortedStations() {
+    public static Collection<Station> getUnsortedStations() {
         return stations.values();
     }
 
-    public boolean hasCycle (){
+    public static boolean hasCycle (){
         Set <Station> all = new HashSet<>();
         all.addAll(stations.values());
         Set <Station> visiting = new HashSet<>();
@@ -118,7 +114,7 @@ public class Network {
     }
     
     // recursive function  
-    private boolean hasCycle(Station station , Set <Station> all , Set <Station> visiting , Set<Station> visited){
+    private static boolean hasCycle(Station station , Set <Station> all , Set <Station> visiting , Set<Station> visited){
         all.remove(station);
         visiting.add(station);
 
@@ -135,7 +131,7 @@ public class Network {
         return false;
     }
 
-    public List<Route> getRoutesOfStation(Station station) {
+    public static List<Route> getRoutesOfStation(Station station) {
         List <Route> result = new ArrayList<>();
         for (Route route : routes.get(station).values()) {
             result.add(route);
@@ -144,8 +140,13 @@ public class Network {
         return result;
     }
 
-    public void deleteallRoutesOfStation(Station station) {
+    public static void deleteallRoutesOfStation(Station station) {
         routes.put(station, new HashMap<Station,Route>());
+    }
+
+    public static void resetNetwork() {
+        stations.clear();
+        routes.clear();
     }
 
 }

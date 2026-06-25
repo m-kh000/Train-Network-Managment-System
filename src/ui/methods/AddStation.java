@@ -30,7 +30,6 @@ import logic.Route;
  */
 public class AddStation extends JPanel {
 
-    private final Network network;
     private final JTextField nameField = new JTextField();
 
     private final JPanel routesPanel = new JPanel();
@@ -38,13 +37,12 @@ public class AddStation extends JPanel {
     private final Btn addRouteBtn = new Btn(Manager.ADD_PATH, "Add Route", false);
     private final Btn submitBtn = new Btn("", "Submit");
 
-    public AddStation(Network network) {
+    public AddStation() {
         super(new BorderLayout());
-        this.network = network;
 
         // Outer padding and header
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE, Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE));
-        add(Manager.topPanel("Add Station", network), BorderLayout.NORTH);
+        add(Manager.topPanel("Add Station"), BorderLayout.NORTH);
 
         // Main form area
         JPanel main = new JPanel();
@@ -139,13 +137,13 @@ public class AddStation extends JPanel {
 
             // Create station
             Station newStation = new Station(stationName);
-            network.addStation(newStation);
+            Network.addStation(newStation);
             // Add all routes
             for (RouteRow row : routeRows) {
                 String selected = (String) row.toSelected();
                 int toId = Integer.parseInt(selected.split("-")[0]);
                 int weight = row.getWeight();
-                network.addRoute(newStation.id, toId, weight);
+                Network.addRoute(newStation.id, toId, weight);
             }
 
             // Reset form
@@ -167,7 +165,7 @@ public class AddStation extends JPanel {
     
 
     private void addRouteRow() {
-        RouteRow row = new RouteRow(network, routesPanel, routeRows);
+        RouteRow row = new RouteRow(routesPanel, routeRows);
         routeRows.add(row);
         routesPanel.add(row);
         routesPanel.revalidate();

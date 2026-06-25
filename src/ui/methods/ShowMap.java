@@ -20,11 +20,8 @@ public class ShowMap extends JPanel {
 
     private final JPanel map;
     private final JPanel sideShortest;
-    private final Network network;
 
-    public ShowMap(Network network) {
-        this.network = network;
-
+    public ShowMap() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(30, 90, 20, 90));
 
@@ -34,17 +31,17 @@ public class ShowMap extends JPanel {
         map.setBorder(BorderFactory.createLineBorder(ROAD, 1));
         sideShortest.setBorder(BorderFactory.createLineBorder(ROAD, 1));
 
-        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, null), BorderLayout.CENTER);
-        sideShortest.add(new Shortest(network, this, SHORT_ROUTE), BorderLayout.CENTER);
+        map.add(new GraphPage(STATION, ROAD, SHORT_ROUTE, BG_GRASS, null), BorderLayout.CENTER);
+        sideShortest.add(new Shortest(this, SHORT_ROUTE), BorderLayout.CENTER);
 
-        add(Manager.topPanel("Map", network), BorderLayout.NORTH);
+        add(Manager.topPanel("Map"), BorderLayout.NORTH);
         add(map, BorderLayout.WEST);
         add(sideShortest, BorderLayout.EAST);
     }
 
     public void updateShortestPath(ArrayList<Route> shortest) {
         map.removeAll();
-        map.add(new GraphPage(network, STATION, ROAD, SHORT_ROUTE, BG_GRASS, shortest), BorderLayout.CENTER);
+        map.add(new GraphPage(STATION, ROAD, SHORT_ROUTE, BG_GRASS, shortest), BorderLayout.CENTER);
         revalidate();
         repaint();
     }

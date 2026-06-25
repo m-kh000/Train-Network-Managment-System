@@ -22,16 +22,14 @@ import ui.Manager.Btn;
 
 public class AddRoute extends JPanel {
 
-    private final Network network;
     private final JComboBox<String> fromCombo;
     private final JComboBox<String> toCombo;
     private final JTextField weightField;
     private final Btn submitBtn;
     private final String[] names;
 
-    public AddRoute(Network network) {
-        this.network = network;
-        this.names = network.getStationsID_Name();
+    public AddRoute() {
+        this.names = Network.getStationsID_Name();
 
         fromCombo = new JComboBox<>(names);
         toCombo = new JComboBox<>(names);
@@ -45,7 +43,7 @@ public class AddRoute extends JPanel {
     private void initializeUI() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE, Manager.TP_PADDING_SIZE, Manager.SIDE_PADDING_SIZE));
-        add(Manager.topPanel("Add Route", network), BorderLayout.NORTH);
+        add(Manager.topPanel("Add Route"), BorderLayout.NORTH);
 
         JPanel main = new JPanel();
         main.setLayout(new BoxLayout(main, BoxLayout.Y_AXIS));
@@ -131,7 +129,7 @@ public class AddRoute extends JPanel {
         }
 
         try {
-            network.addRoute(fromId, toId, weight);
+            Network.addRoute(fromId, toId, weight);
             weightField.setText("");
             fromCombo.setSelectedIndex(-1);
             toCombo.setSelectedIndex(-1);
