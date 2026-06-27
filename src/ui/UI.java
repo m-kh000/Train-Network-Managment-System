@@ -100,7 +100,7 @@ public class UI extends JFrame {
         dialog.setModal(true);
         dialog.setTitle("Import File");
 
-        JLabel label = new JLabel("Select file to import:                                                       .", JLabel.LEFT);
+        JLabel label = new JLabel("Select file to import:");
         label.setFont(Manager.defaultFont(false, false));
 
         JLabel errorLabel = new JLabel(" ");
@@ -110,12 +110,12 @@ public class UI extends JFrame {
         JComboBox<String> fileCombo = new JComboBox<>(files);
         fileCombo.setSelectedIndex(-1);
         fileCombo.setFont(Manager.defaultFont(false, false));
+        fileCombo.setPreferredSize(new Dimension(420,30));
 
-        JPanel dropdownPanel = new JPanel();
-        dropdownPanel.setLayout(new BoxLayout(dropdownPanel, BoxLayout.Y_AXIS));
-        dropdownPanel.add(label);
-        dropdownPanel.add(errorLabel);
-        dropdownPanel.add(fileCombo);
+        JPanel dropdownPanel = new JPanel(new BorderLayout());
+        dropdownPanel.add(label,BorderLayout.NORTH);
+        dropdownPanel.add(errorLabel,BorderLayout.CENTER);
+        dropdownPanel.add(fileCombo,BorderLayout.SOUTH);
 
         Btn importBtn = new Btn("", "Import");
         importBtn.addActionListener(e -> {
@@ -123,7 +123,7 @@ public class UI extends JFrame {
                 result[0] = fileCombo.getSelectedItem().toString();
                 dialog.dispose();
             } else {
-                errorLabel.setText("Please select a file                                               .");
+                errorLabel.setText("Please select a file.");
             }
         });
 
@@ -158,19 +158,20 @@ public class UI extends JFrame {
         dialog.setModal(true);
         dialog.setTitle("Export to File");
 
-        JLabel label = new JLabel("File name:", JLabel.LEFT);
+        JLabel label = new JLabel("File name:");
         label.setFont(Manager.defaultFont(false, false));
 
-        JLabel errorLabel = new JLabel(" ", JLabel.LEFT);
+        JLabel errorLabel = new JLabel(" ");
         errorLabel.setForeground(java.awt.Color.RED);
         errorLabel.setFont(Manager.hintFont());
 
         JTextField tf = new JTextField();
-        JPanel dropdownPanel = new JPanel();
-        dropdownPanel.setLayout(new BoxLayout(dropdownPanel, BoxLayout.Y_AXIS));
-        dropdownPanel.add(label);
-        dropdownPanel.add(errorLabel);
-        dropdownPanel.add(tf);
+        tf.setFont(Manager.defaultFont(false, false));
+        tf.setPreferredSize(new Dimension(420,30));
+        JPanel dropdownPanel = new JPanel(new BorderLayout());
+        dropdownPanel.add(label,BorderLayout.NORTH);
+        dropdownPanel.add(errorLabel,BorderLayout.CENTER);
+        dropdownPanel.add(tf,BorderLayout.SOUTH);
 
         Btn exportBtn = new Btn("", "Export");
         exportBtn.addActionListener(e -> {

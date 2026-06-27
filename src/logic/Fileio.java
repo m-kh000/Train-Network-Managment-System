@@ -7,9 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -21,7 +19,7 @@ public class Fileio {
     }
 
     public static void exportToFile(String filePath) {
-        Path targetPath = Path.of(filePath + LocalDate.now());
+        Path targetPath = Path.of(filePath);
         try {
             Path parent = targetPath.getParent();
             if (parent != null) {
