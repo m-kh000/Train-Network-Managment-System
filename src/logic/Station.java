@@ -4,6 +4,7 @@ public class Station {
     public String name;
     public final int id;
     private static int counter = 1;
+    public static int max = 0;
 
     public Station(String name ) {
         this.name = name;
@@ -12,7 +13,8 @@ public class Station {
     public Station (String name , int id){
         this.name = name;
         this.id = id;
-        counter ++;
+        if (max < id) max = id;
+        counter  = max + 1 ;
     }
 
     public String toString() {
