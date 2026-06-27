@@ -23,4 +23,8 @@ public class Station {
     public void setName(String newName) {
         name = newName;
     }
+    public static void reset() {
+        counter = 0;
+        max = 0;
+    }
 }

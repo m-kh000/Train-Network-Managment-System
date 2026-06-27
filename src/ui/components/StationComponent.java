@@ -26,10 +26,6 @@ public class StationComponent {
         this.id = s.id;
     }
 
-    public String toString() {
-        return name + " (" + x + "," + y + ")";
-    }
-
     public void drawStation(Graphics g) {
         g.fillOval(x - radius, y - radius, 2 * radius, 2 * radius);
         Color c = g.getColor();

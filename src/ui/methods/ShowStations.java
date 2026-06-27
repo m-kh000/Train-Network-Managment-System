@@ -111,28 +111,32 @@ public class ShowStations extends JPanel {
 
     private JPanel createStationPanel(Station station) {
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(20,20,20,50));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
         panel.setBackground(Color.WHITE);
         
         // Station ID on the right
+        JPanel namepanel = new JPanel();
+        namepanel.setLayout(new BoxLayout(namepanel, BoxLayout.X_AXIS));
+        namepanel.setBackground(Color.WHITE);
         JLabel idLabel = new JLabel("ID: " + station.id);
         idLabel.setFont(Manager.defaultFont(false, false));
         idLabel.setForeground(Color.BLACK);
-        panel.add(idLabel);
-        panel.add(Box.createHorizontalStrut(60));
+        namepanel.add(idLabel);
+        namepanel.add(Box.createHorizontalStrut(60));
         
         JLabel nameLabel = new JLabel(station.name + "\t");
         nameLabel.setFont(Manager.defaultFont(true, true));
-        panel.add(nameLabel);
-        panel.add(Box.createHorizontalStrut(530));
+        namepanel.add(nameLabel);
+        panel.add(namepanel,BorderLayout.WEST);
 
         int routeCount = Network.getRoutesOfStation(station) != null ? Network.getRoutesOfStation(station).size() : 0;
         JLabel routesLabel = new JLabel("routes: " + routeCount);
         routesLabel.setFont(Manager.defaultFont(false, false));
         routesLabel.setForeground(Color.GRAY);
-        panel.add(routesLabel);
+        routesLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        panel.add(routesLabel,BorderLayout.EAST);
         
         return panel;
     }

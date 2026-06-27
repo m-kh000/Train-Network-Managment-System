@@ -145,6 +145,7 @@ public class Network {
     }
 
     public static void resetNetwork() {
+        Station.reset();
         stations.clear();
         routes.clear();
     }
