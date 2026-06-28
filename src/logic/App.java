@@ -1,14 +1,13 @@
 package logic;
 
-import javax.swing.JFrame;
-
-import ui.GraphPage;
 import java.util.HashMap;
+import javax.swing.JFrame;
+import ui.GraphPage;
 
 public class App {
     public static void main(String[] args) throws Exception {
         HashMap<Integer, Station> data = new HashMap<>();
-        
+        new UI();
         // tests
         data.put(1, new Station("A"));
         data.put(2, new Station("B"));
@@ -28,8 +27,6 @@ public class App {
         data.get(7).addRoute(new Route(data.get(7), data.get(3), 1035));
         data.get(5).addRoute(new Route(data.get(5), data.get(6), 18));
         data.get(6).addRoute(new Route(data.get(6), data.get(5), 28));
-        
-        
 
         JFrame frame = new JFrame();
         GraphPage graph = new GraphPage(data);
