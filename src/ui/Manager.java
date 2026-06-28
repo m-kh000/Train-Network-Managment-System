@@ -7,18 +7,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import logic.Network;
-
 public class Manager {
-
-    private static final String FONT_NAME = "Arial";
+ 
+    private static final String FONT_NAME = "Georgia" ;
     private static final int NORMAL_SIZE = 16;
     private static final int BIG_SIZE = 24;
     private static final Color BACKGROUND_COLOR = new Color(240, 240, 250);
@@ -51,8 +48,16 @@ public class Manager {
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int SCREEN_WIDTH = SCREEN_SIZE.width;
     public static final int SCREEN_HEIGHT = SCREEN_SIZE.height - 1;
-    public static final int SIDE_SHORTEST = 300;
+    public static final int SIDE_SHORTEST = 350;
     public static final Color ND_BG = Color.WHITE;
+
+    public static Color validColor(int red, int green, int blue) {
+        return new Color(clampColorValue(red), clampColorValue(green), clampColorValue(blue));
+    }
+
+    private static int clampColorValue(int value) {
+        return Math.max(0, Math.min(255, value));
+    }
 
     public static Font defaultFont(boolean isBold, boolean isBig) {
         int style = isBold ? Font.BOLD : Font.PLAIN;

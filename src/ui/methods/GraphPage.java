@@ -32,13 +32,13 @@ public class GraphPage extends JPanel {
 
     public GraphPage(Color stationColor, Color roadColor, Color shortestRoadColor, Color bg, ArrayList<Route> shortestPath) {
         this.stations = Network.getStations();
-        this.stationColor = stationColor;
-        this.roadColor = roadColor;
-        this.shortestRoadColor = shortestRoadColor;
+        this.stationColor = stationColor != null ? Manager.validColor(stationColor.getRed(), stationColor.getGreen(), stationColor.getBlue()) : Color.BLACK;
+        this.roadColor = roadColor != null ? Manager.validColor(roadColor.getRed(), roadColor.getGreen(), roadColor.getBlue()) : Color.GRAY;
+        this.shortestRoadColor = shortestRoadColor != null ? Manager.validColor(shortestRoadColor.getRed(), shortestRoadColor.getGreen(), shortestRoadColor.getBlue()) : Color.RED;
         this.shortestPath = shortestPath != null ? new ArrayList<>(shortestPath) : new ArrayList<>();
 
         setPreferredSize(new Dimension(width, height));
-        setBackground(bg);
+        setBackground(bg != null ? Manager.validColor(bg.getRed(), bg.getGreen(), bg.getBlue()) : Color.WHITE);
         fillData();
     }
 
@@ -78,6 +78,7 @@ public class GraphPage extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(Manager.defaultFont(true, false));
 
         for (RouteComponent routeComponent : routeComponents.values()) {
             g.setColor(shortestPathComponents.contains(routeComponent) ? shortestRoadColor : roadColor);

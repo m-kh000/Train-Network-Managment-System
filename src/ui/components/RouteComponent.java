@@ -1,8 +1,10 @@
 package ui.components;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import logic.Route;
+import ui.Manager;
 
 public class RouteComponent {
 
@@ -48,9 +50,9 @@ public class RouteComponent {
         shx = fx + shv;
         shy = fy + shv;
 
-        g.drawLine(shx, shy, shbx, shby);
-        g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang - theta) * w), (int) (shby - Math.sin(ang - theta) * w));
-        g.drawLine(shbx, shby, (int) (shbx - Math.cos(ang + theta) * w), (int) (shby - Math.sin(ang + theta) * w));
+        drawThickLine(g,shx, shy, shbx, shby);
+        drawThickLine(g,shbx, shby, (int) (shbx - Math.cos(ang - theta) * w), (int) (shby - Math.sin(ang - theta) * w));
+        drawThickLine(g,shbx, shby, (int) (shbx - Math.cos(ang + theta) * w), (int) (shby - Math.sin(ang + theta) * w));
         int my , mx ;
         if (shv > 0){
             my = shby + (shy - shby) / 4 * 3 + shv * 2 / 3;
@@ -60,6 +62,19 @@ public class RouteComponent {
             my = (int) (shby + (shy - shby) / 4 * 3 + shv * 0.8);
             mx = shbx + (shx - shbx) / 4 * 3 + shv * 4;
         }
+        Color c = g.getColor();
+        g.setColor(Manager.validColor(c.getRed() - 20, c.getGreen() - 80, c.getBlue() - 80));
         g.drawString(String.valueOf(weight), mx, my);
+        g.setColor(c);
+    }
+
+    private void drawThickLine(Graphics g, int shx2, int shy2, int shbx2, int shby2) {
+        g.drawLine(shx2, shy2, shbx2, shby2);
+        
+        
+        g.drawLine(shx2+1, shy2, shbx2+1, shby2);
+        // g.drawLine(shx2-1, shy2, shbx2-1, shby2);
+        g.drawLine(shx2, shy2+1, shbx2, shby2+1);
+        g.drawLine(shx2, shy2-1, shbx2, shby2-1);
     }
 }

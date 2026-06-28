@@ -41,6 +41,11 @@ public class Shortest extends JPanel {
         from = new JComboBox<>(names);
         to = new JComboBox<>(names);
 
+        from.setFont(Manager.defaultFont(false, false));
+        to.setFont(Manager.defaultFont(false, false));
+        ans.setFont(Manager.defaultFont(false, false));
+        cycleLabel.setFont(Manager.defaultFont(false, false));
+
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(Manager.SIDE_SHORTEST, Manager.SIDE_SHORTEST));
         setBackground(Manager.ND_BG);
@@ -60,11 +65,14 @@ public class Shortest extends JPanel {
     private void initializeComponents() {
         JLabel find = new JLabel("Find shortest path between:");
         find.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST - 40, 50));
+        find.setFont(Manager.defaultFont(false, false));
+        JLabel tolabel = new JLabel(" to");
+        tolabel.setFont(Manager.defaultFont(false, false));
 
         from.setSelectedIndex(-1);
         to.setSelectedIndex(-1);
-        from.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST / 2 - 30, 30));
-        to.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST / 2 - 30, 30));
+        from.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST / 2 - 40, 30));
+        to.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST / 2 - 40, 30));
 
         ans.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST - 40, 50));
         cycleLabel.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST - 40, 30));
@@ -72,7 +80,7 @@ public class Shortest extends JPanel {
 
         combos.setPreferredSize(new Dimension(Manager.SIDE_SHORTEST, 30));
         combos.add(from, BorderLayout.WEST);
-        combos.add(new JLabel(" to "), BorderLayout.CENTER);
+        combos.add(tolabel, BorderLayout.CENTER);
         combos.add(to, BorderLayout.EAST);
 
         main.add(find, BorderLayout.NORTH);
