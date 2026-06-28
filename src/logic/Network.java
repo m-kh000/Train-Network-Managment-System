@@ -49,8 +49,88 @@ public class Network {
 
     }
 
-    // TODO
-        public static int findShortestPath(int from, int to, ArrayList<Route> finalpath) {return 0;}
+
+        public static int findShortestPath(int from, int to, ArrayList<Route> finalpath) {
+            finalpath.clear();
+            Station[] stationssorted = stations.values().toArray(new Station[0]);
+            int size = stationssorted.length;
+            int[] dis = new int[size];
+            int[] prev = new int[size];
+            boolean[] visited = new boolean[size];
+            java.util.HashMap<Integer, Integer> indexById = new java.util.HashMap<>();
+
+            for (int i = 0; i < size; i++) {
+                indexById.put(stationssorted[i].id, i);
+                dis[i] = Integer.MAX_VALUE;
+                prev[i] = -1;
+            }
+
+            int startIndex = indexById.getOrDefault(from, -1);
+            int targetIndex = indexById.getOrDefault(to, -1);
+            if (startIndex == -1 || targetIndex == -1) {
+                return 0;
+            }
+
+            dis[startIndex] = 0;
+
+            for (int i = 0; i < size; i++) {
+                int smallest = -1;
+                for (int j = 0; j < size; j++) {
+                    if (!visited[j] && (smallest == -1 || dis[j] < dis[smallest])) {
+                        smallest = j;
+                    }
+                }
+
+                if (smallest == -1 || dis[smallest] == Integer.MAX_VALUE) {
+                    break;
+                }
+                visited[smallest] = true;
+
+                if (smallest == targetIndex) {
+                    break;
+                }
+
+                Station current = stationssorted[smallest];
+                HashMap<Station, Route> neighbors = routes.get(current);
+
+                for (Route r : neighbors.values()) {
+                    Integer neighborIndex = indexById.get(r.to.id);
+                    if (neighborIndex == null) {
+                        continue;
+                    }
+                    int newDist = dis[smallest] + r.weight;
+                    if (newDist < dis[neighborIndex]) {
+                        dis[neighborIndex] = newDist;
+                        prev[neighborIndex] = smallest;
+                    }
+                }
+            }
+
+            if (dis[targetIndex] == Integer.MAX_VALUE) {
+                return 0;
+            }
+
+            int currentIndex = targetIndex;
+            while (currentIndex != startIndex) {
+                int previousIndex = prev[currentIndex];
+                if (previousIndex == -1) {
+                    finalpath.clear();
+                    return 0;
+                }
+                Station fromStation = stationssorted[previousIndex];
+                Station toStation = stationssorted[currentIndex];
+                Route route = routes.get(fromStation).get(toStation);
+                if (route == null) {
+                    finalpath.clear();
+                    return 0;
+                }
+                finalpath.add(route);
+                currentIndex = previousIndex;
+            }
+
+            java.util.Collections.reverse(finalpath);
+            return dis[targetIndex];
+        }
    
     public static String[] getStationsID_Name() {
         String ans[] = new String[stations.size()];
