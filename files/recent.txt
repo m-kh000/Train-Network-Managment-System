@@ -1,5 +1,5 @@
-3-Aleppo-> 1-Damascus(50) , 
-4-Bairut-> 3-Aleppo(50) , 2-Homs(50) , 
 2-Homs-> 3-Aleppo(100) , 
-5-Hama-> 3-Aleppo(30) , 1-Damascus(50) , 
 1-Damascus-> 2-Homs(10) , 
+3-Aleppo-> 1-Damascus(50) , 
+5-Hama-> 1-Damascus(50) , 3-Aleppo(30) , 
+4-Bairut-> 2-Homs(50) , 3-Aleppo(50) , 

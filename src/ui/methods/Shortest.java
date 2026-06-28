@@ -40,7 +40,7 @@ public class Shortest extends JPanel {
 
         from = new JComboBox<>(names);
         to = new JComboBox<>(names);
-
+    
         from.setFont(Manager.defaultFont(false, false));
         to.setFont(Manager.defaultFont(false, false));
         ans.setFont(Manager.defaultFont(false, false));
