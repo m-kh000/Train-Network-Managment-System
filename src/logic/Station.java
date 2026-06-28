@@ -1,27 +1,30 @@
 package logic;
 
-import java.util.HashMap;
-
 public class Station {
-    public final String name;
+    public String name;
     public final int id;
     private static int counter = 1;
-    private HashMap<Integer, Route> routes = new HashMap<>();
+    public static int max = 0;
 
-    public Station(String name) {
+    public Station(String name ) {
         this.name = name;
         this.id = counter++;
     }
-
-    public void addRoute(Route r) {
-        routes.put(r.to.id, r);
+    public Station (String name , int id){
+        this.name = name;
+        this.id = id;
+        if (max < id) max = id;
+        counter  = max + 1 ;
     }
 
-    public Route getRoute(int toId) {
-        return routes.get(toId);
+    public String toString() {
+        return id+"-  "+name;
     }
-
-    public HashMap<Integer, Route> getRouts() {
-        return routes;
+    public void setName(String newName) {
+        name = newName;
+    }
+    public static void reset() {
+        counter = 0;
+        max = 0;
     }
 }

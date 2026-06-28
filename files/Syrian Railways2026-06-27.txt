@@ -1,0 +1,5 @@
+4-Bairut-> 2-Homs(50) , 3-Aleppo(50) , 
+2-Homs-> 3-Aleppo(100) , 
+1-Damascus-> 2-Homs(10) , 
+5-Hama-> 1-Damascus(50) , 3-Aleppo(30) , 
+3-Aleppo-> 1-Damascus(50) , 

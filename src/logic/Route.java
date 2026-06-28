@@ -7,26 +7,19 @@ public class Route {
     public int weight;
     public boolean dou = false;
 
-    public Route(Station from, Station to, int weight) {
+    public Route(Station from, Station to, int weight , boolean dou) {
         this.from = from;
         this.to = to;
         this.weight = weight;
-        if (isDou()) {
-            dou = true;
-            findDou().dou = true;
-        }
+        this.dou = dou;
     }
 
-    private boolean isDou() {
-        for (Route r : to.getRouts().values()) {
-            if (r.to == from)
-                return true;
-        }
-        return false;
+    public boolean isDou() {
+        return dou;
     }
 
-    private Route findDou() {
-        return to.getRoute(from.id);
+    public void setDou(boolean dou){
+        this.dou = dou;
     }
 
 }
