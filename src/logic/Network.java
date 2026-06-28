@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Network {
@@ -179,37 +180,52 @@ public class Network {
         return stations.values();
     }
 
-    public static boolean hasCycle (){
-        Set <Station> all = new HashSet<>();
-        all.addAll(stations.values());
-        Set <Station> visiting = new HashSet<>();
-        Set <Station> visited = new HashSet<>();
+public static boolean hasCycle() {
+    Set<Station> all = new HashSet<>(stations.values());
+    Set<Station> visiting = new HashSet<>();
+    Set<Station> visited = new HashSet<>();
 
-        while(!all.isEmpty()){
-            Station current = all.iterator().next();
-            if (hasCycle(current, all,   visiting, visited)) 
+    while (!all.isEmpty()) {
+        Station current = all.iterator().next();
+
+        if (hasCycle(current, all, visiting, visited))
+            return true;
+    }
+
+    return false;
+}
+
+private static boolean hasCycle(
+        Station station,
+        Set<Station> all,
+        Set<Station> visiting,
+        Set<Station> visited) {
+
+    // Already fully explored
+    if (visited.contains(station))
+        return false;
+
+    // Back edge found -> cycle
+    if (visiting.contains(station))
+        return true;
+
+    all.remove(station);
+    visiting.add(station);
+
+    Map<Station, Route> outgoing = routes.get(station);
+
+    if (outgoing != null) {
+        for (Route route : outgoing.values()) {
+            if (hasCycle(route.to, all, visiting, visited))
                 return true;
         }
-        return false;
     }
-    
-    // recursive function  
-    private static boolean hasCycle(Station station , Set <Station> all , Set <Station> visiting , Set<Station> visited){
-        all.remove(station);
-        visiting.add(station);
 
-        for (Route route : routes.get(station).values()) {
-            if (visited.contains(route.to))
-                continue;
-            if (visiting.contains(route.to)) 
-                return true;
-            if (hasCycle(route.to, all, visiting, visited)) 
-                return true;
-        }
-        visiting.remove(station);
-        visited.add(station);
-        return false;
-    }
+    visiting.remove(station);
+    visited.add(station);
+
+    return false;
+}
 
     public static List<Route> getRoutesOfStation(Station station) {
         List <Route> result = new ArrayList<>();

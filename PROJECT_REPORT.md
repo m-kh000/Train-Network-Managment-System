@@ -1,7 +1,7 @@
 # Train Network Management System - Project Report
 
 ## 1. Basic idea and usage
-The project is a desktop Java application for managing a railway/train network. It lets a user model stations and the routes between them, then view the network as a graph and compute shortest paths.
+The project is a desktop Java application for managing a railway train network. It lets a user model stations and the routes between them, then view the network as a graph and compute shortest paths.
 
 The application is built with Java Swing and is organized into two major parts:
 - Logic layer: classes that represent the network model and file persistence.
@@ -12,39 +12,31 @@ The application is built with Java Swing and is organized into two major parts:
 2. Load or create a network.
 3. Add stations and routes through the UI.
 4. Export the current network to a text file or import a previously saved one.
-5. View the network graph and calculate shortest paths between stations.
+5. View the network graph and calculate shortest paths between stations and check for cycles.
 
 ## 2. Main project structure
 ### Logic package
 - App.java: application entry point.
 - Network.java: central controller for stations, routes, shortest path logic, cycle detection, and network utilities.
-- Station.java: represents a station with an id and a name.
-- Route.java: represents a directed route between two stations with a weight.
+- Station.java and Route.java: representing stations, their info and directed weighted routes between them.
 - Fileio.java: handles importing and exporting the network from/to text files.
 
 ### UI package
 - UI.java: main frame and switching logic between screens.
 - MainPage.java: main menu of the app.
-- Manager.java: shared styling and helpers such as font creation and button styling.
+- Manager.java: shared styling, constants and methods for general looks, font creation and button styling.
 - Components: RouteComponent and StationComponent for drawing graph elements.
-- Methods: AddStation, AddRoute, EditStation, ShowStations, ShowMap, Shortest, and GraphPage for the user workflows.
+- Methods: AddStation, AddRoute, EditStation, ShowStations, ShowMap, Shortest etc... panels for the user workflows.
 
 ## 3. Data structures used
 The project uses a mixture of simple Java data structures and custom domain objects.
 
 ### Core domain objects
-- Station
-  - Fields: id, name
-  - Purpose: represents a node in the railway graph.
-
-- Route
-  - Fields: from, to, weight, dou
-  - Purpose: represents a connection/edge between two stations.
+- Station -represents a node in the railway graph.
+- Route -represents a connection/edge between two stations.
 
 ### Network storage structures
 - HashMap<Integer, Station> stations
-  - Key: station id
-  - Value: Station object
   - Used for fast lookup by id.
 
 - HashMap<Station, HashMap<Station, Route>> routes
@@ -53,30 +45,17 @@ The project uses a mixture of simple Java data structures and custom domain obje
   - Used to model adjacency from a station to its outgoing routes.
 
 ### Supporting collections
-- ArrayList<Route>
-  - Used for storing a computed shortest path and for temporary route lists.
-
-- HashSet<Station>
-  - Used in cycle detection to track visiting/visited nodes efficiently.
-
-- List<Route>
-  - Used when listing routes belonging to a station.
-
-- Collection<Station>
-  - Used for station displays and sorting operations.
+usining Lists, ArrayLists, HashSets, Collections of Routs and Stations for various reasons like :dispaying, storing, tracking
 
 ## 4. Algorithms used
 ### 4.1 Shortest path: Dijkstra's algorithm
 The core path-finding logic in Network.findShortestPath uses Dijkstra's algorithm.
 
 How it works:
-- It builds an index mapping from station ids to positions in an array.
 - It initializes all distances to infinity except the starting station.
 - It repeatedly picks the unvisited station with the smallest known distance.
 - It relaxes edges to neighboring stations using route weights.
 - It reconstructs the path by following predecessor pointers.
-
-This makes the app suitable for finding the shortest weighted path between two stations.
 
 ### 4.2 Cycle detection
 The Network.hasCycle method checks whether the graph contains a cycle.
