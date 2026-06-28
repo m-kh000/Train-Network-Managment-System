@@ -14,7 +14,7 @@ import ui.Manager;
 public class ShowMap extends JPanel {
 
     private static final Color BG_GRASS = Color.WHITE;
-    private static final Color ROAD = new Color (224, 183, 94);
+    private static final Color ROAD = new Color (255, 230, 112);
     private static final Color STATION = new Color (255, 205, 69) ;
     private static final Color SHORT_ROUTE = new Color(17, 88, 255);
 

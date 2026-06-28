@@ -63,7 +63,7 @@ public class RouteComponent {
             mx = shbx + (shx - shbx) / 4 * 3 + shv * 4;
         }
         Color c = g.getColor();
-        g.setColor(Manager.validColor(c.getRed() - 20, c.getGreen() - 80, c.getBlue() - 80));
+        g.setColor(Manager.validColor(c.getRed() - 30, c.getGreen() - 90, c.getBlue() - 90));
         g.drawString(String.valueOf(weight), mx, my);
         g.setColor(c);
     }
