@@ -1,0 +1,5 @@
+79-Damascus-> 4-Daraa(50) , 1-Alhamra(20) , 3-Cairo(2) , 
+4-Daraa-> 2-Bairout(50) , 3-Cairo(50) , 
+2-Bairout-> 79-Damascus(90) , 3-Cairo(100) , 
+3-Cairo-> 1-Alhamra(50) , 
+1-Alhamra-> 2-Bairout(10) , 
